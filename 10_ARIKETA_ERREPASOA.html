@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="eu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>10 ariketa · Errepasoa (klaseak, DOM, gertaerak, localStorage)</title>
+<style>
+:root{
+  --bg:#0b1020;
+  --panel:#121a2f;
+  --panel2:#18223c;
+  --text:#eef3ff;
+  --muted:#9fb0d0;
+  --accent:#8cc8ff;
+  --line:#273553;
+  --code:#090e1a;
+  --ok:#7dd3a8;
+  --warn:#ffc266;
+  --shadow:0 14px 40px rgba(0,0,0,.22);
+  --mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:linear-gradient(180deg,#09101f 0,#0c1324 32%,#0b1020 100%);
+  color:var(--text);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  line-height:1.55;
+}
+[hidden]{display:none!important}
+.wrap{max-width:980px;margin:auto;padding:0 22px}
+.goiburua{
+  padding:34px 0 6px;
+  border-bottom:1px solid var(--line);
+  background:radial-gradient(900px 300px at 10% -20%,rgba(140,200,255,.14),transparent 65%);
+}
+.goi-etiketa{
+  margin:0 0 6px;
+  color:var(--accent);
+  font-size:.76rem;
+  font-weight:700;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+h1{margin:0 0 8px;font-size:clamp(1.7rem,4vw,2.5rem);letter-spacing:-.03em}
+.azalpena{max-width:68ch;margin:0 0 16px;color:var(--muted)}
+.azalpena code,p code,li code,.pista code{
+  background:#1a2540;
+  border:1px solid #2b3a5c;
+  border-radius:6px;
+  padding:1px 5px;
+  color:#dce9ff;
+  font-family:var(--mono);
+  font-size:.9em;
+}
+.aurrerapena{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 4px}
+.progress{
+  flex:1 1 220px;
+  height:10px;
+  background:#1a2540;
+  border:1px solid var(--line);
+  border-radius:999px;
+  overflow:hidden;
+}
+#progressfill{
+  display:block;
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,var(--accent),var(--ok));
+  transition:width .25s ease;
+}
+#progress-text{margin:0;color:var(--muted);font-size:.88rem;font-variant-numeric:tabular-nums}
+.iragazkiak{
+  display:flex;
+  gap:8px;
+  overflow:auto;
+  padding:14px 0 18px;
+  scrollbar-width:thin;
+}
+.iragazki{
+  border:1px solid var(--line);
+  background:var(--panel);
+  color:var(--muted);
+  border-radius:999px;
+  padding:7px 13px;
+  white-space:nowrap;
+  cursor:pointer;
+  font:inherit;
+  font-size:.88rem;
+}
+.iragazki:hover,.iragazki.aktiboa{background:var(--panel2);color:var(--text);border-color:#496387}
+.botoi{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  font:inherit;
+  font-size:.88rem;
+  font-weight:600;
+  cursor:pointer;
+  border-radius:10px;
+  border:1px solid #3b5478;
+  background:#1b2a47;
+  color:var(--text);
+  padding:8px 12px;
+}
+.botoi:hover{border-color:var(--accent);background:#223453}
+.botoi:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.botoi.bigarren{background:transparent;color:var(--muted)}
+.botoi.kopiatu{margin-top:2px}
+main{padding:24px 0 50px}
+.oharra{
+  margin:0 0 22px;
+  padding:14px 16px;
+  background:rgba(140,200,255,.07);
+  border:1px solid #294562;
+  border-radius:14px;
+  color:#d8eaff;
+  font-size:.94rem;
+}
+.grida{display:grid;gap:18px}
+.txartela{
+  --topic:var(--accent);
+  background:linear-gradient(180deg,var(--panel),#10182c);
+  border:1px solid var(--line);
+  border-top:3px solid var(--topic);
+  border-radius:16px;
+  padding:18px 20px 20px;
+  box-shadow:var(--shadow);
+  min-width:0;
+  scroll-margin-top:16px;
+}
+.txartela[data-gaia="Klaseak"]{--topic:#b79cff}
+.txartela[data-gaia="DOM"]{--topic:#7dd3a8}
+.txartela[data-gaia="Gertaerak"]{--topic:#ffc266}
+.txartela[data-gaia="localStorage"]{--topic:#8cc8ff}
+.txartela.osatuta{border-color:rgba(125,211,168,.55);border-top-color:var(--ok)}
+.txartel-burua{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.zenbakia{color:var(--topic);font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.etiketa{
+  color:var(--topic);
+  border:1px solid currentColor;
+  border-radius:999px;
+  padding:2px 9px;
+  font-size:.7rem;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.eginda{
+  margin-left:auto;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:var(--muted);
+  font-size:.85rem;
+  cursor:pointer;
+  user-select:none;
+}
+.eginda input{accent-color:var(--ok);width:16px;height:16px;cursor:pointer}
+.txartela h2{margin:0 0 8px;font-size:1.15rem;letter-spacing:-.015em}
+.enuntziatua{margin:0 0 12px;color:#dbe6fb}
+pre{
+  margin:0 0 12px;
+  background:var(--code);
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:14px 16px;
+  overflow:auto;
+  line-height:1.55;
+  font-size:.86rem;
+}
+pre[data-label]::before{
+  content:attr(data-label);
+  display:block;
+  margin:0 0 9px;
+  color:var(--muted);
+  font-family:Inter,ui-sans-serif,system-ui,sans-serif;
+  font-size:.68rem;
+  font-weight:700;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+pre[data-label="Abiapuntua"]{border-left:3px solid var(--warn)}
+pre[data-label="Soluzioa"]{border-left:3px solid var(--ok)}
+pre[data-label="index.html"]{border-left:3px solid #7aa2d8}
+pre code{font-family:var(--mono);white-space:pre}
+details.pista{
+  margin:0 0 12px;
+  border:1px dashed #33486b;
+  border-radius:10px;
+  padding:8px 12px;
+  background:rgba(140,200,255,.04);
+}
+details.pista summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:.88rem}
+details.pista p{margin:8px 0 0;color:#c7d4ed;font-size:.9rem}
+details.soluzioa{margin-top:2px}
+details.soluzioa > summary{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  list-style:none;
+  cursor:pointer;
+  font:inherit;
+  font-size:.88rem;
+  font-weight:600;
+  color:var(--text);
+  border:1px solid #3b5478;
+  background:#1b2a47;
+  border-radius:10px;
+  padding:8px 12px;
+  user-select:none;
+}
+details.soluzioa > summary::-webkit-details-marker{display:none}
+details.soluzioa > summary:hover{border-color:var(--accent);background:#223453}
+details.soluzioa[open] > summary{margin-bottom:12px}
+.noiz-irekita{display:none}
+details[open] .noiz-itxita{display:none}
+details[open] .noiz-irekita{display:inline}
+.hutsa{margin:40px 0;text-align:center;color:var(--muted)}
+footer{border-top:1px solid var(--line);color:var(--muted);padding:20px 0 36px;font-size:.84rem}
+footer code{font-family:var(--mono)}
+@media(max-width:640px){
+  .wrap{padding:0 14px}
+  .goiburua{padding-top:24px}
+  .txartela{padding:16px}
+  .eginda{margin-left:0}
+  .botoi{width:100%}
+  .txartel-burua{gap:8px}
+}
+@media print{
+  body{background:#fff;color:#000}
+  .goiburua{background:#fff;border-bottom:1px solid #ccc}
+  .goi-etiketa,.azalpena,.etiketa,.zenbakia,.eginda,.aurrerapena,.iragazkiak,.oharra,
+  .pista,.soluzioa,.kopiatu,footer{display:none!important}
+  .txartela{
+    box-shadow:none;
+    background:#fff;
+    border:1px solid #ccc;
+    break-inside:avoid;
+    color:#000;
+    padding:14px;
+  }
+  .txartela h2,.enuntziatua{color:#000}
+  pre{background:#f5f5f5;border-color:#ddd;color:#000}
+}
+</style>
+</head>
+<body>
+<header class="goiburua">
+  <div class="wrap">
+    <p class="goi-etiketa">DAW2 · Bezero-inguruneko programazioa</p>
+    <h1>10 ariketa · Errepasoa</h1>
+    <p class="azalpena">
+      Klaseak, DOMa, gertaerak eta <code>localStorage</code> lantzeko ariketa laburrak.
+      Saiatu lehenengo zuk kodea idazten; gero zabaldu pista edo soluzioa.
+    </p>
+    <div class="aurrerapena">
+      <div id="progressbar" class="progress" role="progressbar" aria-label="Ariketen aurrerapena"
+           aria-valuemin="0" aria-valuemax="10" aria-valuenow="0">
+        <span id="progressfill"></span>
+      </div>
+      <p id="progress-text">0 / 10 eginda</p>
+      <button id="reset" class="botoi bigarren" type="button">Markak garbitu</button>
+    </div>
+    <nav id="iragazkiak" class="iragazkiak" aria-label="Gaiaren arabera iragazi">
+      <button class="iragazki aktiboa" type="button" data-iragazki="guztiak" aria-pressed="true">Guztiak</button>
+      <button class="iragazki" type="button" data-iragazki="Klaseak" aria-pressed="false">Klaseak (3)</button>
+      <button class="iragazki" type="button" data-iragazki="DOM" aria-pressed="false">DOM (3)</button>
+      <button class="iragazki" type="button" data-iragazki="Gertaerak" aria-pressed="false">Gertaerak (2)</button>
+      <button class="iragazki" type="button" data-iragazki="localStorage" aria-pressed="false">localStorage (2)</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="oharra">
+    <strong>Nola erabili:</strong> irakurri enuntziatua eta saiatu kodea zuk idazten
+    (kontsolan edo HTML fitxategi txiki batean). Markatu <em>Eginda</em> egiaztatu duzunean;
+    markak nabigatzailean gordeko dira. Soluzioa behar duzunean soilik zabaldu.
+  </section>
+
+  <div id="ariketak" class="grida">
+
+    <article class="txartela" data-gaia="Klaseak" data-id="1" id="ariketa-1">
+      <div class="txartel-burua">
+        <span class="zenbakia">01</span>
+        <span class="etiketa">Klaseak</span>
+        <label class="eginda">
+          <input type="checkbox" data-eginda="1">
+          <span>Eginda</span>
+        </label>
+      </div>
+      <h2>Liburua: klasea, metodoa eta metodo estatikoa</h2>
+      <p class="enuntziatua">
+        Sortu <code>Liburua</code> klasea <code>constructor(izenburua, orrialdeak)</code> eta
+        <code>laburpena()</code> metodoarekin. Azken honek
+        <code>"Izenburua (N orrialde)"</code> itzuli behar du. Gehitu
+        <code>static luzeena(liburuak)</code> metodoa, orrialde gehien dituen liburua
+        itzultzeko. Probatu hiru libururekin.
+      </p>
+      <pre data-label="Abiapuntua"><code>class Liburua {
+  // TODO: constructor, laburpena() eta static luzeena()
+}</code></pre>
+      <details class="pista">
+        <summary>Pista</summary>
+        <p>Metodo estatikoa klaseari dagokio: <code>Liburua.luzeena(...)</code>. Barruan <code>reduce</code> erabil dezakezu.</p>
+      </details>
+      <details class="soluzioa">
+        <summary><span class="noiz-itxita">Soluzioa erakutsi</span><span class="noiz-irekita">Soluzioa ezkutatu</span></summary>
+        <pre data-label="Soluzioa"><code>class Liburua {
+  constructor(izenburua, orrialdeak) {
+    this.izenburua = izenburua;
+    this.orrialdeak = orrialdeak;
+  }
+
+  laburpena() {
+    return `${this.izenburua} (${this.orrialdeak} orrialde)`;
+  }
+
+  static luzeena(liburuak) {
+    return liburuak.reduce((luzeena, liburua) =>
+      liburua.orrialdeak &gt; luzeena.orrialdeak ? liburua : luzeena
+    );
+  }
+}
+
+const liburuak = [
+  new Liburua("Kirmen Uribe", 120),
+  new Liburua("Maddi Etxeberria", 240),
+  new Liburua("Joseba Sarrionandia", 180),
+];
+
+console.log(liburuak[1].laburpena());
+console.log(Liburua.luzeena(liburuak).izenburua); // "Maddi Etxeberria"</code></pre>
+        <button class="botoi kopiatu" type="button">Kopiatu soluzioa</button>
+      </details>
+    </article>
+
+    <article class="txartela" data-gaia="Klaseak" data-id="2" id="ariketa-2">
+      <div class="txartel-burua">
+        <span class="zenbakia">02</span>
+        <span class="etiketa">Klaseak</span>
+        <label class="eginda">
+          <input type="checkbox" data-eginda="2">
+          <span>Eginda</span>
+        </label>
+      </div>
+      <h2>Tenperatura: getter, setter eta balidazioa</h2>
+      <p class="enuntziatua">
+        Sortu <code>Tenperatura</code> klasea. Barruko balioa <code>_celsius</code> izango da.
+        <code>celsius</code> getterrak balioa itzuliko du; setterrak zenbaki bat dela
+        egiaztatuko du eta, bestela, <code>Error</code> jaurtiko du. Gehitu
+        <code>fahrenheit</code> getterra (<code>C * 9/5 + 32</code>). Probatu
+        <code>new Tenperatura(20)</code> eta 0 balioarekin.
+      </p>
+      <pre data-label="Abiapuntua"><code>class Tenperatura {
+  constructor(celsius) {
+    this.celsius = celsius; // setterra deitzen da
+  }
+
+  // TODO: get/set celsius, get fahrenheit
+}</code></pre>
+      <details class="pista">
+        <summary>Pista</summary>
+        <p>Getter eta setterrak propietate gisa erabiltzen dira: <code>t.celsius = 0</code>, ez <code>t.celsius(0)</code>. Konstruktorean esleitzean setterra exekutatzen da.</p>
+      </details>
+      <details class="soluzioa">
+        <summary><span class="noiz-itxita">Soluzioa erakutsi</span><span class="noiz-irekita">Soluzioa ezkutatu</span></summary>
+        <pre data-label="Soluzioa"><code>class Tenperatura {
+  constructor(celsius) {
+    this.celsius = celsius;
+  }
+
+  get celsius() {
+    return this._celsius;
+  }
+
+  set celsius(balioa) {
+    if (typeof balioa !== "number" || Number.isNaN(balioa)) {
+      throw new Error("Tenperatura zenbaki bat izan behar da");
+    }
+    this._celsius = balioa;
+  }
+
+  get fahrenheit() {
+    return this._celsius * 9 / 5 + 32;
+  }
+}
+
+const t = new Tenperatura(20);
+console.log(t.fahrenheit); // 68
+
+t.celsius = 0;
+console.log(t.fahrenheit); // 32</code></pre>
+        <button class="botoi kopiatu" type="button">Kopiatu soluzioa</button>
+      </details>
+    </article>
+
+    <article class="txartela" data-gaia="Klaseak" data-id="3" id="ariketa-3">
+      <div class="txartel-burua">
+        <span class="zenbakia">03</span>
+        <span class="etiketa">Klaseak</span>
+        <label class="eginda">
+          <input type="checkbox" data-eginda="3">
+          <span>Eginda</span>
+        </label>
+      </div>
+      <h2>Tresna → Mugikorra: extends eta super</h2>
+      <p class="enuntziatua">
+        Sortu <code>Tresna</code> klasea (<code>izena</code> eta
+        <code>deskribatu()</code> → <code>"Tresna: izena"</code>). Sortu
+        <code>Mugikorra</code> azpiklasea <code>extends</code> erabiliz,
+        <code>marka</code> propietate gehigarriarekin. Berridatzi
+        <code>deskribatu()</code> <code>super.deskribatu()</code> erabiliz:
+        <code>"Tresna: Smartphone — Pixel"</code>. Egiaztatu
+        <code>instanceof Tresna</code>.
+      </p>
+      <pre data-label="Abiapuntua"><code>class Tresna {
+  // TODO: constructor eta deskribatu()
+}
+
+class Mugikorra extends Tresna {
+  // TODO: super(), marka eta deskribatu() berridatzia
+}</code></pre>
+      <details class="pista">
+        <summary>Pista</summary>
+        <p><code>super(izena)</code> deitu behar da <code>this</code> erabili aurretik. Gurasoaren metodoa <code>super.deskribatu()</code> bidez deitzen da.</p>
+      </details>
+      <details class="soluzioa">
+        <summary><span class="noiz-itxita">Soluzioa erakutsi</span><span class="noiz-irekita">Soluzioa ezkutatu</span></summary>
+        <pre data-label="Soluzioa"><code>class Tresna {
+  constructor(izena) {
+    this.izena = izena;
+  }
+
+  deskribatu() {
+    return `Tresna: ${this.izena}`;
+  }
+}
+
+class Mugikorra extends Tresna {
+  constructor(izena, marka) {
+    super(izena);
+    this.marka = marka;
+  }
+
+  deskribatu() {
+    return `${super.deskribatu()} — ${this.marka}`;
+  }
+}
+
+const m = new Mugikorra("Smartphone", "Pixel");
+console.log(m.deskribatu());      // "Tresna: Smartphone — Pixel"
+console.log(m instanceof Tresna); // true</code></pre>
+        <button class="botoi kopiatu" type="button">Kopiatu soluzioa</button>
+      </details>
+    </article>
+
+    <article class="txartela" data-gaia="DOM" data-id="4" id="ariketa-4">
+      <div class="txartel-burua">
+        <span class="zenbakia">04</span>
+        <span class="etiketa">DOM</span>
+        <label class="eginda">
+          <input type="checkbox" data-eginda="4">
+          <span>Eginda</span>
+        </label>
+      </div>
+      <h2>Zerrenda arraytik DOMera</h2>
+      <p class="enuntziatua">
+        Array honetako elementu bakoitzeko <code>&lt;li&gt;</code> bat sortu eta
+        <code>#zerrenda</code> barruan gehitu:
+        <code>["sagarra", "banana", "udarea"]</code>. Erabili
+        <code>createElement</code>, <code>textContent</code> eta
+        <code>appendChild</code>; ez <code>innerHTML</code>.
+      </p>
+      <pre data-label="index.html"><code>&lt;ul id="zerrenda"&gt;&lt;/ul&gt;</code></pre>
+      <pre data-label="Abiapuntua"><code>const frutak = ["sagarra", "banana", "udarea"];
+const zerrenda = document.querySelector("#zerrenda");
+
+// TODO: sortu li bana eta gehitu zerrendari</code></pre>
+      <details class="pista">
+        <summary>Pista</summary>
+        <p>Elementua sortu → edukia ezarri → gurasoari gehitu. <code>forEach</code> egokia da hemen.</p>
+      </details>
+      <details class="soluzioa">
+        <summary><span class="noiz-itxita">Soluzioa erakutsi</span><span class="noiz-irekita">Soluzioa ezkutatu</span></summary>
+        <pre data-label="Soluzioa"><code>const frutak = ["sagarra", "banana", "udarea"];
+const zerrenda = document.querySelector("#zerrenda");
+
+frutak.forEach((fruta) => {
+  const li = document.createElement("li");
+  li.textContent = fruta;
+  zerrenda.appendChild(li);
+});</code></pre>
+        <button class="botoi kopiatu" type="button">Kopiatu soluzioa</button>
+      </details>
+    </article>
+
+    <article class="txartela" data-gaia="DOM" data-id="5" id="ariketa-5">
+      <div class="txartel-burua">
+        <span class="zenbakia">05</span>
+        <span class="etiketa">DOM</span>
+        <label class="eginda">
+          <input type="checkbox" data-eginda="5">
+          <span>Eginda</span>
+        </label>
+      </div>
+      <h2>Noten batezbestekoa eta classList</h2>
+      <p class="enuntziatua">
+        Irakurri nota guztiak, kalkulatu batezbestekoa eta erakutsi
+        <code>#batezbestekoa</code> elementuan <code>"Batezbestekoa: 6.0"</code> formatuan.
+        Gainera, 5etik beherako notek <code>gainditua</code> klasea kenduta eduki dezatela,
+        eta gaindituenek klase hori izan dezatela. Erabili
+        <code>querySelectorAll</code>, spread, <code>map</code>, <code>reduce</code> eta
+        <code>classList.toggle</code>.
+      </p>
+      <pre data-label="index.html"><code>&lt;ul id="notak"&gt;
+  &lt;li class="nota"&gt;8&lt;/li&gt;
+  &lt;li class="nota"&gt;4&lt;/li&gt;
+  &lt;li class="nota"&gt;6&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p id="batezbestekoa"&gt;&lt;/p&gt;</code></pre>
+      <pre data-label="Abiapuntua"><code>// TODO: irakurri notak, kalkulatu batezbestekoa eta markatu gaindituak
+// CSS adibidea: .gainditua { color: #7dd3a8; font-weight: 700; }</code></pre>
+      <details class="pista">
+        <summary>Pista</summary>
+        <p><code>querySelectorAll</code>-ek NodeList bat itzultzen du. <code>map</code> erabili nahi baduzu, bihurtu array: <code>[...notak]</code>.</p>
+      </details>
+      <details class="soluzioa">
+        <summary><span class="noiz-itxita">Soluzioa erakutsi</span><span class="noiz-irekita">Soluzioa ezkutatu</span></summary>
+        <pre data-label="Soluzioa"><code>const notak = document.querySelectorAll(".nota");
+const balioak = [...notak].map((li) =&gt; Number(li.textContent));
+
+const batezbestekoa =
+  balioak.reduce((acc, n) =&gt; acc + n, 0) / balioak.length;
+
+document.querySelector("#batezbestekoa").textContent =
+  `Batezbestekoa: ${batezbestekoa.toFixed(1)}`;
+
+notak.forEach((li) =&gt; {
+  li.classList.toggle("gainditua", Number(li.textContent) &gt;= 5);
+});</code></pre>
+        <button class="botoi kopiatu" type="button">Kopiatu soluzioa</button>
+      </details>
+    </article>
+
+    <article class="txartela" data-gaia="DOM" data-id="6" id="ariketa-6">
+      <div class="txartel-burua">
+        <span class="zenbakia">06</span>
+        <span class="etiketa">DOM</span>
+        <label class="eginda">
+          <input type="checkbox" data-eginda="6">
+          <span>Eginda</span>
+        </label>
+      </div>
+      <h2>data-mota atributua eta iragazketa</h2>
+      <p class="enuntziatua">
+        Bildu <code>#produktuak</code> zerrendako <code>data-mota="fruta"</code> duten
+        elementuak, atera haien testua eta erakutsi <code>#frutak</code> paragrafoan koma
+        bidez banatuta: <code>"Sagarra, Banana"</code>. Erabili <code>dataset</code> eta
+        <code>filter</code>/<code>map</code>.
+      </p>
+      <pre data-label="index.html"><code>&lt;ul id="produktuak"&gt;
+  &lt;li data-mota="fruta"&gt;Sagarra&lt;/li&gt;
+  &lt;li data-mota="barazki"&gt;Azenarioa&lt;/li&gt;
+  &lt;li data-mota="fruta"&gt;Banana&lt;/li&gt;
+  &lt;li data-mota="barazki"&gt;Porrua&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p id="frutak"&gt;&lt;/p&gt;</code></pre>
+      <details class="pista">
+        <summary>Pista</summary>
+        <p><code>data-mota</code> atributua <code>elementua.dataset.mota</code> bidez atzitzen da (kamelCase bihurtuta).</p>
+      </details>
+      <details class="soluzioa">
+        <summary><span class="noiz-itxita">Soluzioa erakutsi</span><span class="noiz-irekita">Soluzioa ezkutatu</span></summary>
+        <pre data-label="Soluzioa"><code>const produktuak = [...document.querySelectorAll("#produktuak li")];
+
+const frutak = produktuak
+  .filter((li) =&gt; li.dataset.mota === "fruta")
+  .map((li) =&gt; li.textContent);
+
+document.querySelector("#frutak").textContent = frutak.join(", ");</code></pre>
+        <button class="botoi kopiatu" type="button">Kopiatu soluzioa</button>
+      </details>
+    </article>
+
+    <article class="txartela" data-gaia="Gertaerak" data-id="7" id="ariketa-7">
+      <div class="txartel-burua">
+        <span class="zenbakia">07</span>
+        <span class="etiketa">Gertaerak</span>
+        <label class="eginda">
+          <input type="checkbox" data-eginda="7">
+          <span>Eginda</span>
+        </label>
+      </div>
+      <h2>Inprimakia: submit, preventDefault eta balidazioa</h2>
+      <p class="enuntziatua">
+        Kudeatu <code>submit</code> gertaera: deitu <code>preventDefault()</code>, irakurri
+        <code>#izena</code> balioa <code>trim()</code> eginez. Hutsik badago, erakutsi
+        <code>"Izena hutsik dago."</code>; bestela <code>"Kaixo, &lt;izena&gt;!"</code> eta
+        garbitu inprimakia. Ez utzi orria berriz kargatzen.
+      </p>
+      <pre data-label="index.html"><code>&lt;form id="forma"&gt;
+  &lt;input id="izena" type="text" placeholder="Zure izena"&gt;
+  &lt;button type="submit"&gt;Bidali&lt;/button&gt;
+&lt;/form&gt;
+&lt;p id="mezua" role="status"&gt;&lt;/p&gt;</code></pre>
+      <details class="pista">
+        <summary>Pista</summary>
+        <p><code>preventDefault()</code> gabe nabigatzaileak orria berriz kargatuko du. <code>value</code> beti da string.</p>
+      </details>
+      <details class="soluzioa">
+        <summary><span class="noiz-itxita">Soluzioa erakutsi</span><span class="noiz-irekita">Soluzioa ezkutatu</span></summary>
+        <pre data-label="Soluzioa"><code>const forma = document.querySelector("#forma");
+const mezua = document.querySelector("#mezua");
+
+forma.addEventListener("submit", (e) =&gt; {
+  e.preventDefault();
+
+  const izena = document.querySelector("#izena").value.trim();
+
+  if (!izena) {
+    mezua.textContent = "Izena hutsik dago.";
+    return;
+  }
+
+  mezua.textContent = `Kaixo, ${izena}!`;
+  forma.reset();
+});</code></pre>
+        <button class="botoi kopiatu" type="button">Kopiatu soluzioa</button>
+      </details>
+    </article>
+
+    <article class="txartela" data-gaia="Gertaerak" data-id="8" id="ariketa-8">
+      <div class="txartel-burua">
+        <span class="zenbakia">08</span>
+        <span class="etiketa">Gertaerak</span>
+        <label class="eginda">
+          <input type="checkbox" data-eginda="8">
+          <span>Eginda</span>
+        </label>
+      </div>
+      <h2>Gertaeren delegazioa zerrendan</h2>
+      <p class="enuntziatua">
+        Gehitu click entzule bakarra <code>#zerrenda</code>-ri. <code>li</code> bati klik
+        egitean, txandakatu <code>eginda</code> klasea (<code>classList.toggle</code>).
+        Erabili <code>e.target.matches("li")</code> edo <code>closest("li")</code>, eta azaldu
+        zergatik ez den beharrezkoa <code>li</code> bakoitzeko listener bat jartzea.
+      </p>
+      <pre data-label="index.html"><code>&lt;ul id="zerrenda"&gt;
+  &lt;li&gt;Ikasi JavaScript&lt;/li&gt;
+  &lt;li&gt;Egin kirola&lt;/li&gt;
+  &lt;li&gt;Irakurri liburu bat&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+      <pre data-label="Abiapuntua"><code>// CSS: .eginda { text-decoration: line-through; opacity: .6; }
+
+// TODO: entzule bakarra #zerrendan eta klikaren kudeaketa</code></pre>
+      <details class="pista">
+        <summary>Pista</summary>
+        <p>Gertaerak burbuileatzen dute: semearen klik gurasora iristen da. Guraso bakarrean entzutea dei egiten zaio delegazioa.</p>
+      </details>
+      <details class="soluzioa">
+        <summary><span class="noiz-itxita">Soluzioa erakutsi</span><span class="noiz-irekita">Soluzioa ezkutatu</span></summary>
+        <pre data-label="Soluzioa"><code>const zerrenda = document.querySelector("#zerrenda");
+
+zerrenda.addEventListener("click", (e) =&gt; {
+  if (e.target.matches("li")) {
+    e.target.classList.toggle("eginda");
+  }
+});
+
+// Elementuak gero gehitzen badira, entzule berriak ez dira behar:
+// delegazioari esker, li berriek ere funtzionatzen dute.</code></pre>
+        <button class="botoi kopiatu" type="button">Kopiatu soluzioa</button>
+      </details>
+    </article>
+
+    <article class="txartela" data-gaia="localStorage" data-id="9" id="ariketa-9">
+      <div class="txartel-burua">
+        <span class="zenbakia">09</span>
+        <span class="etiketa">localStorage</span>
+        <label class="eginda">
+          <input type="checkbox" data-eginda="9">
+          <span>Eginda</span>
+        </label>
+      </div>
+      <h2>Bisita-kontagailua localStoragean</h2>
+      <p class="enuntziatua">
+        Gorde <code>bisitak</code> gakoan zenbat bisita egin diren. Orria kargatzean,
+        aurreko balioa irakurri (ez badago, 0), batu 1 eta berriro gorde. Erakutsi
+        kontsolan. Gogoratu <code>localStorage</code>-k stringak gordetzen dituela.
+        Gehitu <code>removeItem</code> baten bidez kontagailua berrezartzeko aukera.
+      </p>
+      <details class="pista">
+        <summary>Pista</summary>
+        <p><code>localStorage.getItem("bisitak")</code> lehen aldian <code>null</code> da. Erabili <code>Number(...) || 0</code> edo <code>??</code>.</p>
+      </details>
+      <details class="soluzioa">
+        <summary><span class="noiz-itxita">Soluzioa erakutsi</span><span class="noiz-irekita">Soluzioa ezkutatu</span></summary>
+        <pre data-label="Soluzioa"><code>const gakoa = "bisitak";
+
+const aurrekoa = Number(localStorage.getItem(gakoa)) || 0;
+const bisitak = aurrekoa + 1;
+
+localStorage.setItem(gakoa, bisitak);
+console.log(`Bisita kopurua: ${bisitak}`);
+
+// Kontagailua berrezartzeko:
+function berrezarri() {
+  localStorage.removeItem(gakoa);
+}
+
+// berrezarri();</code></pre>
+        <button class="botoi kopiatu" type="button">Kopiatu soluzioa</button>
+      </details>
+    </article>
+
+    <article class="txartela" data-gaia="localStorage" data-id="10" id="ariketa-10">
+      <div class="txartel-burua">
+        <span class="zenbakia">10</span>
+        <span class="etiketa">localStorage</span>
+        <label class="eginda">
+          <input type="checkbox" data-eginda="10">
+          <span>Eginda</span>
+        </label>
+      </div>
+      <h2>Objektua localStoragean: JSON.stringify / JSON.parse</h2>
+      <p class="enuntziatua">
+        Gorde <code>{ izena: "Ane", puntuazioa: 8 }</code> objektua <code>emaitza</code>
+        gakoan JSON gisa. Gero irakurri eta bihurtu objektu; gakoa ez badago edo JSONa
+        baliogabea bada, erabili <code>{ izena: "Ezezaguna", puntuazioa: 0 }</code>
+        lehenetsia. Azkenik, erakutsi <code>izena</code> eta ezabatu gakoa.
+      </p>
+      <details class="pista">
+        <summary>Pista</summary>
+        <p>Gordetzeko <code>JSON.stringify</code>; irakurtzeko <code>JSON.parse</code>. Erabili <code>try/catch</code> JSON baliogabea kudeatzeko.</p>
+      </details>
+      <details class="soluzioa">
+        <summary><span class="noiz-itxita">Soluzioa erakutsi</span><span class="noiz-irekita">Soluzioa ezkutatu</span></summary>
+        <pre data-label="Soluzioa"><code>const gakoa = "emaitza";
+const lehenetsia = { izena: "Ezezaguna", puntuazioa: 0 };
+
+localStorage.setItem(
+  gakoa,
+  JSON.stringify({ izena: "Ane", puntuazioa: 8 })
+);
+
+let emaitza = lehenetsia;
+
+try {
+  const gordea = localStorage.getItem(gakoa);
+  if (gordea) {
+    emaitza = { ...lehenetsia, ...JSON.parse(gordea) };
+  }
+} catch {
+  emaitza = lehenetsia;
+}
+
+console.log(emaitza.izena); // "Ane"
+localStorage.removeItem(gakoa);</code></pre>
+        <button class="botoi kopiatu" type="button">Kopiatu soluzioa</button>
+      </details>
+    </article>
+
+  </div>
+
+  <p id="hutsa" class="hutsa" hidden>Ez dago ariketa ikusgairik iragazki honekin.</p>
+</main>
+
+<footer>
+  <div class="wrap">
+    Bezero-inguruneko programazioa · 10 ariketa labur · Markak eta soluzioen egoera
+    nabigatzailearen <code>localStorage</code>-n gordetzen dira. Probatzeko, hobe
+    zerbitzari lokal bat erabiltzea (<code>python -m http.server</code>).
+  </div>
+</footer>
+
+<script>
+const GAKOA = "errepaso-10-ariketa:eginda";
+const txartelak = Array.from(document.querySelectorAll(".txartela"));
+const kaxak = Array.from(document.querySelectorAll("[data-eginda]"));
+const idBiztagarriak = new Set(txartelak.map((txartela) => txartela.dataset.id));
+const progressbar = document.querySelector("#progressbar");
+const progressfill = document.querySelector("#progressfill");
+const progressText = document.querySelector("#progress-text");
+const resetBotoia = document.querySelector("#reset");
+const hutsa = document.querySelector("#hutsa");
+const iragazkiak = document.querySelector("#iragazkiak");
+
+function kargatuEginda() {
+  try {
+    const gordea = JSON.parse(localStorage.getItem(GAKOA));
+    if (!Array.isArray(gordea)) return new Set();
+    return new Set(
+      gordea
+        .map(String)
+        .filter((id) => idBiztagarriak.has(id))
+    );
+  } catch {
+    return new Set();
+  }
+}
+
+let eginda = kargatuEginda();
+
+function gordeEginda() {
+  try {
+    localStorage.setItem(GAKOA, JSON.stringify([...eginda]));
+  } catch {
+    // Biltegia blokeatuta badago, markak saio honetan soilik mantenduko dira.
+  }
+}
+
+function eguneratuAurrerapena() {
+  const kopurua = eginda.size;
+  const guztira = txartelak.length;
+  const ehunekoa = guztira ? Math.round((kopurua / guztira) * 100) : 0;
+
+  progressText.textContent = `${kopurua} / ${guztira} eginda`;
+  progressfill.style.width = `${ehunekoa}%`;
+  progressbar.setAttribute("aria-valuenow", String(kopurua));
+
+  txartelak.forEach((txartela) => {
+    txartela.classList.toggle("osatuta", eginda.has(txartela.dataset.id));
+  });
+}
+
+kaxak.forEach((kaxa) => {
+  const id = kaxa.dataset.eginda;
+  kaxa.checked = eginda.has(id);
+
+  kaxa.addEventListener("change", () => {
+    if (kaxa.checked) {
+      eginda.add(id);
+    } else {
+      eginda.delete(id);
+    }
+    gordeEginda();
+    eguneratuAurrerapena();
+  });
+});
+
+resetBotoia.addEventListener("click", () => {
+  if (eginda.size === 0) return;
+  if (!window.confirm("Ziur marka guztiak garbitu nahi dituzula?")) return;
+
+  eginda = new Set();
+  kaxak.forEach((kaxa) => { kaxa.checked = false; });
+  try {
+    localStorage.removeItem(GAKOA);
+  } catch {
+    // Ez dago ezer egiteko biltegia blokeatuta badago.
+  }
+  eguneratuAurrerapena();
+});
+
+iragazkiak.addEventListener("click", (e) => {
+  const botoia = e.target.closest("[data-iragazki]");
+  if (!botoia) return;
+
+  const gaia = botoia.dataset.iragazki;
+  iragazkiak.querySelectorAll(".iragazki").forEach((b) => {
+    const aktiboa = b === botoia;
+    b.classList.toggle("aktiboa", aktiboa);
+    b.setAttribute("aria-pressed", String(aktiboa));
+  });
+
+  let ikusgai = 0;
+  txartelak.forEach((txartela) => {
+    const erakutsi = gaia === "guztiak" || txartela.dataset.gaia === gaia;
+    txartela.hidden = !erakutsi;
+    if (erakutsi) ikusgai += 1;
+  });
+
+  hutsa.hidden = ikusgai > 0;
+});
+
+async function kopiatu(testua) {
+  if (navigator.clipboard && window.isSecureContext) {
+    await navigator.clipboard.writeText(testua);
+    return;
+  }
+
+  const eremua = document.createElement("textarea");
+  eremua.value = testua;
+  eremua.style.position = "fixed";
+  eremua.style.opacity = "0";
+  document.body.appendChild(eremua);
+  eremua.select();
+  const ondo = document.execCommand("copy");
+  eremua.remove();
+
+  if (!ondo) throw new Error("Kopiatzeak huts egin du");
+}
+
+document.querySelectorAll(".kopiatu").forEach((botoia) => {
+  botoia.addEventListener("click", async () => {
+    const kodea = botoia.closest(".txartela").querySelector(".soluzioa code");
+    const testua = kodea ? kodea.textContent : "";
+    const hasierakoa = botoia.textContent;
+
+    try {
+      await kopiatu(testua);
+      botoia.textContent = "Kopiatuta!";
+    } catch {
+      botoia.textContent = "Ez da posible izan";
+    }
+
+    setTimeout(() => {
+      botoia.textContent = hasierakoa;
+    }, 1400);
+  });
+});
+
+eguneratuAurrerapena();
+</script>
+</body>
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="eu"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DAW1 · Kode-erreferentzia azkarra</title><style>
+:root{--bg:#0b1020;--panel:#121a2f;--panel2:#18223c;--text:#eef3ff;--muted:#9fb0d0;--accent:#8cc8ff;--line:#273553;--code:#090e1a;--shadow:0 14px 40px rgba(0,0,0,.22)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(180deg,#09101f 0,#0c1324 32%,#0b1020 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}header{position:sticky;top:0;z-index:20;background:rgba(9,16,31,.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}.wrap{max-width:1180px;margin:auto;padding:0 22px}.top{padding:22px 0 14px}h1{font-size:clamp(1.45rem,3vw,2.2rem);margin:0 0 5px;letter-spacing:-.03em}.subtitle{color:var(--muted);margin:0 0 18px}.searchrow{display:grid;grid-template-columns:1fr auto;gap:10px}input[type=search]{width:100%;font:inherit;font-size:1.04rem;color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:14px 16px;outline:none}input[type=search]:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(140,200,255,.12)}.kbd{align-self:center;color:var(--muted);font-size:.86rem;border:1px solid var(--line);border-radius:9px;padding:8px 10px}.filters{display:flex;gap:8px;overflow:auto;padding:12px 0 14px;scrollbar-width:thin}.filter{border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:999px;padding:8px 12px;white-space:nowrap;cursor:pointer;font:inherit}.filter.active,.filter:hover{background:var(--panel2);color:var(--text);border-color:#496387}main{padding:24px 0 50px}.meta{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:.92rem;margin:0 0 16px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(315px,1fr));gap:15px}.card{background:linear-gradient(180deg,var(--panel),#10182c);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);min-width:0}.cardhead{padding:15px 16px 10px}.badge{font-size:.72rem;color:var(--accent);text-transform:uppercase;letter-spacing:.09em;font-weight:700}.card h2{font-size:1.04rem;margin:5px 0 0}pre{margin:0;background:var(--code);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:15px 16px;overflow:auto;line-height:1.48;font-size:.88rem}code{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace}.note{color:#c7d4ed;padding:12px 16px 14px;font-size:.9rem;line-height:1.45;margin:0}.cardfoot{display:flex;align-items:center;justify-content:space-between;padding:0 16px 14px;gap:10px}.tags{color:var(--muted);font-size:.72rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.copy{background:transparent;border:1px solid var(--line);color:var(--text);border-radius:9px;padding:6px 9px;cursor:pointer}.copy:hover{border-color:var(--accent)}.empty{display:none;text-align:center;padding:60px 10px;color:var(--muted)}.tip{margin:0 0 20px;padding:14px 16px;background:rgba(140,200,255,.07);border:1px solid #294562;border-radius:14px;color:#d8eaff;line-height:1.5}footer{border-top:1px solid var(--line);color:var(--muted);padding:22px 0 35px;font-size:.86rem}@media(max-width:640px){.kbd{display:none}.searchrow{grid-template-columns:1fr}.wrap{padding:0 14px}}@media print{header{position:static}.searchrow,.filters,.copy,.tags,.tip{display:none!important}body{background:white;color:black}.card{box-shadow:none;break-inside:avoid;background:white;border-color:#ccc}pre{background:#f5f5f5;color:black;border-color:#ddd}.note,.subtitle,.meta,.badge{color:#444}}
+</style></head><body><header><div class="wrap top"><h1>DAW1 · Kode-erreferentzia azkarra</h1><p class="subtitle">JavaScript · arrayak · objektuak · klaseak · DOM · Web APIak</p><div class="searchrow"><input id="search" type="search" autocomplete="off" placeholder="Bilatu: map, filter, querySelector, localStorage, preventDefault..." autofocus=""><span class="kbd">/ bilatzeko · Esc garbitzeko</span></div><div id="filters" class="filters"><button class="filter active" data-cat="Guztiak">Guztiak</button><button class="filter" data-cat="JavaScript oinarriak">JavaScript oinarriak</button><button class="filter" data-cat="Funtzioak">Funtzioak</button><button class="filter" data-cat="String / Math">String / Math</button><button class="filter" data-cat="Arrayak">Arrayak</button><button class="filter" data-cat="Objektuak">Objektuak</button><button class="filter" data-cat="Prototipoak / Klaseak">Prototipoak / Klaseak</button><button class="filter" data-cat="Moduluak">Moduluak</button><button class="filter" data-cat="DOM">DOM</button><button class="filter" data-cat="Gertaerak">Gertaerak</button><button class="filter" data-cat="Web APIak">Web APIak</button></div></div></header><main class="wrap"><p class="tip"><strong>Erabilera:</strong> lehenengo erabaki zer behar duzun; gero bilatu sintaxia. Fitxek ez dute ariketa osoa ebazten: piezak zuk elkartu behar dituzu.</p><div class="meta"><span id="count">79 / 79 fitxa</span><span>Offline · kanpoko mendekotasunik gabe</span></div><section id="grid" class="grid"><article class="card"><div class="cardhead"><div class="badge">JavaScript oinarriak</div><h2>Script-a HTMLan sartzea</h2></div><pre><code>&lt;script src=&quot;app.js&quot; defer&gt;&lt;/script&gt;
+&lt;script type=&quot;module&quot; src=&quot;app.js&quot;&gt;&lt;/script&gt;
+
+&lt;noscript&gt;Gaitu JavaScript nabigatzailean.&lt;/noscript&gt;</code></pre><p class="note">defer: HTMLa parseatu ondoren, ordena mantenduz. type=&quot;module&quot;: strict mode eta scope propioa.</p><div class="cardfoot"><span class="tags">script · defer · module · noscript · html</span><button class="copy" data-copy="c1">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">JavaScript oinarriak</div><h2>Irteerak eta sarrerak</h2></div><pre><code>console.log(&quot;Kaixo&quot;);
+alert(&quot;Kaixo&quot;);
+const bai = confirm(&quot;Seguru?&quot;);
+const izena = prompt(&quot;Izena?&quot;);</code></pre><p class="note">confirm() → true/false; prompt() → string edo null. console.log() da arazketarako tresna nagusia.</p><div class="cardfoot"><span class="tags">console · alert · confirm · prompt · irteera</span><button class="copy" data-copy="c2">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">JavaScript oinarriak</div><h2>Aldagaiak: const / let</h2></div><pre><code>const izena = &quot;Ane&quot;;   // ezin da berriro esleitu
+let adina = 18;        // alda daiteke
+adina = 19;
+
+const pertsona = { izena: &quot;Ane&quot; };
+pertsona.izena = &quot;Iker&quot;;  // ✅ edukia alda daiteke</code></pre><p class="note">const lehenetsi; let balioa aldatuko bada. var ez erabili (funtzio-scopea).</p><div class="cardfoot"><span class="tags">const · let · var · aldagai · scope</span><button class="copy" data-copy="c3">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">JavaScript oinarriak</div><h2>Scopea</h2></div><pre><code>{
+  let barnekoa = 1;   // blokean soilik
+  var kanpokoa = 2;   // funtzio osoan
+}
+
+function f() {
+  let tokikoa = 3;    // funtzioan soilik
+}</code></pre><p class="note">let/const bloke-scopea dute; var funtzio-scopea. let/const aldagaiek TDZ dute.</p><div class="cardfoot"><span class="tags">scope · bloke · funtzio · hoisting · tdz</span><button class="copy" data-copy="c4">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">JavaScript oinarriak</div><h2>Tipoak eta typeof</h2></div><pre><code>typeof 42           // &quot;number&quot;
+typeof &quot;kaixo&quot;      // &quot;string&quot;
+typeof true         // &quot;boolean&quot;
+typeof {}           // &quot;object&quot;
+typeof []           // &quot;object&quot;
+typeof null         // &quot;object&quot;  ⚠️
+typeof undefined    // &quot;undefined&quot;
+typeof function(){} // &quot;function&quot;</code></pre><p class="note">Array.isArray([]) → true. typeof null → &quot;object&quot; da JSren klasiko bat.</p><div class="cardfoot"><span class="tags">typeof · tipo · number · string · boolean</span><button class="copy" data-copy="c5">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">JavaScript oinarriak</div><h2>Balio falsy / truthy</h2></div><pre><code>// Falsy:
+false  0  -0  &quot;&quot;  null  undefined  NaN
+
+// Truthy (baita hauek ere):
+[]  {}  &quot;0&quot;  &quot;false&quot;  -1</code></pre><p class="note">Baldintzetan if (balioa) erabiltzean, falsy zerrenda hau gogoratu.</p><div class="cardfoot"><span class="tags">falsy · truthy · baldintza · if · null</span><button class="copy" data-copy="c6">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">JavaScript oinarriak</div><h2>Bihurketa eta koakzioa</h2></div><pre><code>&quot;5&quot; + 2          // &quot;52&quot;
+&quot;5&quot; - 2          // 3
+Number(&quot;12&quot;)     // 12
+Number(&quot;12px&quot;)   // NaN
+parseInt(&quot;12px&quot;) // 12
+Boolean(0)       // false
+(0.1 + 0.2) === 0.3  // false ⚠️</code></pre><p class="note">+ eragilea berezia da: string batekin batuta, dena string bihurtzen da.</p><div class="cardfoot"><span class="tags">koakzio · coercion · number · parseint · parsefloat</span><button class="copy" data-copy="c7">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">JavaScript oinarriak</div><h2>== vs. ===</h2></div><pre><code>0 == &quot;0&quot;    // true  ⚠️
+0 === &quot;0&quot;   // false ✅
+null == undefined   // true
+null === undefined  // false
+&quot;5&quot; !== 5   // true</code></pre><p class="note">Beti === eta !== erabili. ==-k motak bihurtzen ditu.</p><div class="cardfoot"><span class="tags">== · === · konparazio · comparacion · igualdad</span><button class="copy" data-copy="c8">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">JavaScript oinarriak</div><h2>Eragileak</h2></div><pre><code>+  -  *  /  %  **  ++  --
+=  +=  -=  *=  /=
+&amp;&amp;  ||  !
+baldintza ? balioa1 : balioa2
+typeof x
+x instanceof Klasea</code></pre><p class="note">Aritmetikoak, esleipena, konparazioa eta logikoak bereizi. Ternarioak if laburra ordezkatzen du.</p><div class="cardfoot"><span class="tags">eragile · operador · aritmetiko · logiko · ternario</span><button class="copy" data-copy="c9">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">JavaScript oinarriak</div><h2>if / else if / else</h2></div><pre><code>if (adina &gt;= 18) {
+  console.log(&quot;Nagusia&quot;);
+} else if (adina &gt;= 16) {
+  console.log(&quot;Enantzintzakoa&quot;);
+} else {
+  console.log(&quot;Adingabea&quot;);
+}</code></pre><p class="note">Baldintzak parentesi artean; blokeak beti giltza artean.</p><div class="cardfoot"><span class="tags">if · else · baldintza · condicional</span><button class="copy" data-copy="c10">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">JavaScript oinarriak</div><h2>switch</h2></div><pre><code>switch (eguna) {
+  case &quot;larunbata&quot;:
+  case &quot;igandea&quot;:
+    console.log(&quot;Asteburua&quot;);
+    break;
+  default:
+    console.log(&quot;Laneguna&quot;);
+}</code></pre><p class="note">break ahazten bada, hurrengo case-ra pasatzen da (fall-through).</p><div class="cardfoot"><span class="tags">switch · case · break · default · fall-through</span><button class="copy" data-copy="c11">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">JavaScript oinarriak</div><h2>for</h2></div><pre><code>for (let i = 0; i &lt; 5; i++) {
+  console.log(i);
+}
+
+for (let i = 10; i &gt; 0; i -= 2) {
+  console.log(i);
+}</code></pre><p class="note">Iterazio-kopurua ezaguna denean. i aldagaia blokean dago.</p><div class="cardfoot"><span class="tags">for · begizta · bucle · iterazio · contador</span><button class="copy" data-copy="c12">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">JavaScript oinarriak</div><h2>while / do...while</h2></div><pre><code>let x = 0;
+while (x &lt; 3) {
+  console.log(x);
+  x++;
+}
+
+do {
+  console.log(&quot;Gutxienez behin&quot;);
+} while (false);</code></pre><p class="note">while: baldintza bete arte. do...while: gutxienez behin exekutatzen da.</p><div class="cardfoot"><span class="tags">while · do while · begizta · bucle</span><button class="copy" data-copy="c13">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">JavaScript oinarriak</div><h2>for...of / for...in</h2></div><pre><code>const frutak = [&quot;banana&quot;, &quot;sagarra&quot;];
+
+for (const fruta of frutak) {
+  console.log(fruta);        // balioa
+}
+
+for (const indizea in frutak) {
+  console.log(indizea);      // gakoa / indizea
+}</code></pre><p class="note">for...of → balioak (arrayak, stringak). for...in → gakoak (objektuak). Arrayekin of erabili.</p><div class="cardfoot"><span class="tags">for of · for in · iterazio · array · objeto</span><button class="copy" data-copy="c14">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">JavaScript oinarriak</div><h2>break / continue</h2></div><pre><code>for (let i = 0; i &lt; 10; i++) {
+  if (i === 3) continue;  // 3 saltatu
+  if (i === 7) break;     // begizta utzi
+  console.log(i);
+}</code></pre><p class="note">continue: iterazio hau saltatu. break: begizta osoa utzi.</p><div class="cardfoot"><span class="tags">break · continue · begizta · saltatu</span><button class="copy" data-copy="c15">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Funtzioak</div><h2>Funtzio-deklarazioa</h2></div><pre><code>function batu(a, b) {
+  return a + b;
+}
+
+const kendu = function (a, b) {
+  return a - b;
+};</code></pre><p class="note">return gabe funtzioak undefined itzultzen du. Funtzioa balio bat da.</p><div class="cardfoot"><span class="tags">function · funtzio · return · declaracion · expresion</span><button class="copy" data-copy="c16">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Funtzioak</div><h2>Arrow function</h2></div><pre><code>const biderkatu = (a, b) =&gt; a * b;
+
+const agurtu = (izena) =&gt; {
+  return `Kaixo, ${izena}!`;
+};</code></pre><p class="note">Arrow funtzioek ez dute this propiorik eta ezin dute arguments erabili.</p><div class="cardfoot"><span class="tags">arrow · flecha · funcion · this · arguments</span><button class="copy" data-copy="c17">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Funtzioak</div><h2>Parametro lehenetsiak</h2></div><pre><code>function agurtu(izena = &quot;ikasle&quot;) {
+  return `Kaixo, ${izena}!`;
+}
+
+agurtu();       // &quot;Kaixo, ikasle!&quot;
+agurtu(&quot;Ane&quot;);  // &quot;Kaixo, Ane!&quot;</code></pre><p class="note">Parametroa ez bada pasatzen, balio lehenetsia erabiltzen da.</p><div class="cardfoot"><span class="tags">parametro · default · lehenetsi · funcion</span><button class="copy" data-copy="c18">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Funtzioak</div><h2>Rest parametroak</h2></div><pre><code>function batuGuztiak(...zenbakiak) {
+  return zenbakiak.reduce((acc, n) =&gt; acc + n, 0);
+}
+
+batuGuztiak(1, 2, 3);  // 6</code></pre><p class="note">...-ek gainerako argumentuak array batean biltzen ditu.</p><div class="cardfoot"><span class="tags">rest · spread · parametro · arguments · array</span><button class="copy" data-copy="c19">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Funtzioak</div><h2>Callback</h2></div><pre><code>function exekutatu(fn) {
+  fn(&quot;Kaixo&quot;);
+}
+
+exekutatu((mezua) =&gt; console.log(mezua));
+
+const bikoiztu = [1, 2, 3].map((n) =&gt; n * 2);</code></pre><p class="note">Callback: beste funtzio bati parametro gisa pasatzen zaion funtzioa.</p><div class="cardfoot"><span class="tags">callback · funcion · map · parametro</span><button class="copy" data-copy="c20">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">String / Math</div><h2>String metodoak</h2></div><pre><code>const s = &quot;  Kaixo, Mundua!  &quot;;
+s.length            // 18
+s.trim()            // &quot;Kaixo, Mundua!&quot;
+s.toUpperCase()
+s.charAt(2)         // &quot;K&quot;
+s.at(-1)            // &quot;!&quot;
+s.indexOf(&quot;Mundua&quot;) // 9
+s.includes(&quot;Kaixo&quot;) // true
+s.slice(2, 7)       // &quot;Kaixo&quot;
+s.split(&quot;, &quot;)
+s.replace(&quot;Mundua&quot;, &quot;Denok&quot;)
+s.repeat(2)</code></pre><p class="note">Stringak aldaezinak dira: metodoek string berria itzultzen dute.</p><div class="cardfoot"><span class="tags">string · trim · slice · includes · split</span><button class="copy" data-copy="c21">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">String / Math</div><h2>Template literal</h2></div><pre><code>const izena = &quot;Ane&quot;;
+const adina = 21;
+
+console.log(`Kaixo, ${izena}. ${adina} urte dituzu.`);
+console.log(`Batura: ${2 + 3}`);</code></pre><p class="note">Backtick-ak erabili; ${...} barruan edozein adierazpen jar daiteke.</p><div class="cardfoot"><span class="tags">template literal · backtick · interpolacion · string</span><button class="copy" data-copy="c22">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">String / Math</div><h2>Zenbaki-bihurketa</h2></div><pre><code>Number(&quot;42&quot;)       // 42
+Number(&quot;42px&quot;)     // NaN
+parseInt(&quot;42px&quot;)   // 42
+parseFloat(&quot;3.14&quot;) // 3.14
+(3.14159).toFixed(2) // &quot;3.14&quot; (string!)
+Number.isNaN(NaN)  // true</code></pre><p class="note">toFixed() string bat itzultzen du. prompt() beti string da.</p><div class="cardfoot"><span class="tags">number · parseint · parsefloat · tofixed · nan</span><button class="copy" data-copy="c23">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">String / Math</div><h2>Math</h2></div><pre><code>Math.round(4.6)   // 5
+Math.floor(4.9)   // 4
+Math.ceil(4.1)    // 5
+Math.abs(-7)      // 7
+Math.max(3, 9, 2) // 9
+Math.min(3, 9, 2) // 2
+Math.pow(2, 8)    // 256
+Math.random()     // [0, 1)</code></pre><p class="note">Math.random() inoiz ez da 1era iristen; tarteak ondo kalkulatu.</p><div class="cardfoot"><span class="tags">math · round · floor · ceil · abs</span><button class="copy" data-copy="c24">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">String / Math</div><h2>Dadoa / tarte zuzena</h2></div><pre><code>// 1etik 6ra
+Math.floor(Math.random() * 6) + 1
+
+// 1etik 10era
+Math.floor(Math.random() * 10) + 1
+
+// min eta max artean
+Math.floor(Math.random() * (max - min + 1)) + min</code></pre><p class="note">⚠️ Math.floor(Math.random() * 6) → 0 atera daiteke; + 1 behar da.</p><div class="cardfoot"><span class="tags">random · dado · tarte · rango · math</span><button class="copy" data-copy="c25">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">String / Math</div><h2>Date</h2></div><pre><code>const orain = new Date();
+
+orain.getFullYear();
+orain.getMonth();      // 0-11 ⚠️
+orain.getDate();
+orain.getDay();        // 0 = igandea
+orain.toLocaleDateString(&quot;eu&quot;);
+orain.toLocaleTimeString(&quot;eu&quot;);</code></pre><p class="note">getMonth() 0tik hasten da (urtarrila = 0). Data formaturako toLocale... erabili.</p><div class="cardfoot"><span class="tags">date · data · orain · getmonth · tolocaledatestring</span><button class="copy" data-copy="c26">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Arrayak</div><h2>Arraya sortu eta atzitu</h2></div><pre><code>const frutak = [&quot;banana&quot;, &quot;sagarra&quot;, &quot;udarea&quot;];
+const zenbakiak = [4, 8, 15, 16];
+
+frutak[0]      // &quot;banana&quot;
+frutak.length  // 3
+frutak.at(-1)  // &quot;udarea&quot;</code></pre><p class="note">Arraya objektu bat da; indizeak 0tik hasten dira.</p><div class="cardfoot"><span class="tags">array · indize · length · at · sortu</span><button class="copy" data-copy="c27">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Arrayak</div><h2>push / pop / shift / unshift</h2></div><pre><code>const a = [1, 2, 3];
+
+a.push(4);      // [1, 2, 3, 4]  amaieran
+a.pop();        // 4 → [1, 2, 3]
+a.unshift(0);   // [0, 1, 2, 3]  hasieran
+a.shift();      // 0 → [1, 2, 3]</code></pre><p class="note">Lau metodo hauek jatorrizko arraya aldatzen dute.</p><div class="cardfoot"><span class="tags">push · pop · shift · unshift · array</span><button class="copy" data-copy="c28">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Arrayak</div><h2>slice vs. splice</h2></div><pre><code>const a = [1, 2, 3, 4, 5];
+
+a.slice(1, 3);   // [2, 3]  (ez du aldatzen)
+a.slice(-2);     // [4, 5]
+
+const b = [...a];
+b.splice(1, 2, 9); // [1, 9, 4, 5] (aldatzen du)</code></pre><p class="note">slice kopiatzen du; splice jatorrizkoa aldatzen du.</p><div class="cardfoot"><span class="tags">slice · splice · array · kopiatu · ezabatu</span><button class="copy" data-copy="c29">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Arrayak</div><h2>concat / join / includes</h2></div><pre><code>const a = [1, 2];
+const b = [3, 4];
+
+a.concat(b);        // [1, 2, 3, 4]
+a.join(&quot;-&quot;);        // &quot;1-2&quot;
+a.indexOf(2);       // 1
+a.includes(9);      // false</code></pre><p class="note">join string bihurtzen du; includes true/false itzultzen du.</p><div class="cardfoot"><span class="tags">concat · join · indexof · includes · array</span><button class="copy" data-copy="c30">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Arrayak</div><h2>sort</h2></div><pre><code>const zenbakiak = [10, 2, 1];
+zenbakiak.sort();              // [1, 10, 2] ⚠️ string gisa
+
+zenbakiak.sort((a, b) =&gt; a - b); // [1, 2, 10] ✅
+zenbakiak.sort((a, b) =&gt; b - a); // [10, 2, 1]</code></pre><p class="note">Zenbakietan beti konparatzailea pasa. sort()-ek jatorrizkoa aldatzen du.</p><div class="cardfoot"><span class="tags">sort · ordenatu · comparador · numerico</span><button class="copy" data-copy="c31">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Arrayak</div><h2>reverse / toSorted</h2></div><pre><code>const a = [3, 1, 2];
+
+a.reverse();          // [2, 1, 3] (aldatzen du)
+a.toSorted((x, y) =&gt; x - y); // [1, 2, 3] (kopia)</code></pre><p class="note">reverse-ek jatorrizkoa aldatzen du; toSorted-ek array berria itzultzen du.</p><div class="cardfoot"><span class="tags">reverse · tosorted · array · ordenatu · copia</span><button class="copy" data-copy="c32">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Arrayak</div><h2>map</h2></div><pre><code>const prezioak = [100, 250, 400];
+
+const iva = prezioak.map((p) =&gt; p * 1.21);
+// [121, 302.5, 484]
+
+const izenak = ikasleak.map((i) =&gt; i.izena);</code></pre><p class="note">map-ek array berria itzultzen du, elementu bakoitza eraldatuta.</p><div class="cardfoot"><span class="tags">map · array · transformar · nuevo array</span><button class="copy" data-copy="c33">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Arrayak</div><h2>filter</h2></div><pre><code>const prezioak = [100, 250, 400, 600];
+
+const garestiak = prezioak.filter((p) =&gt; p &gt; 300);
+// [400, 600]
+
+const bikoitiak = [1, 2, 3, 4].filter((n) =&gt; n % 2 === 0);
+// [2, 4]</code></pre><p class="note">filter baldintza betetzen duten elementuen array berria itzultzen du.</p><div class="cardfoot"><span class="tags">filter · filtrar · iragazi · array · condicion</span><button class="copy" data-copy="c34">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Arrayak</div><h2>reduce</h2></div><pre><code>const zenbakiak = [1, 2, 3, 4];
+
+const batura = zenbakiak.reduce((acc, n) =&gt; acc + n, 0);
+// 10
+
+const max = zenbakiak.reduce((a, b) =&gt; (b &gt; a ? b : a));
+// 4</code></pre><p class="note">Hasierako balioa (0, [], {}) ematea gomendagarria da.</p><div class="cardfoot"><span class="tags">reduce · acumulador · batura · suma · max</span><button class="copy" data-copy="c35">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Arrayak</div><h2>forEach</h2></div><pre><code>const frutak = [&quot;banana&quot;, &quot;sagarra&quot;];
+
+frutak.forEach((fruta, i) =&gt; {
+  console.log(i, fruta);
+});
+// 0 banana
+// 1 sagarra</code></pre><p class="note">forEach-ek ez du ezer itzultzen (undefined); alboko efektuetarako da.</p><div class="cardfoot"><span class="tags">foreach · iterar · array · undefined</span><button class="copy" data-copy="c36">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Arrayak</div><h2>every / some</h2></div><pre><code>const zenbakiak = [2, 4, 6];
+
+zenbakiak.every((n) =&gt; n % 2 === 0); // true
+zenbakiak.some((n) =&gt; n &gt; 5);        // true
+zenbakiak.every((n) =&gt; n &gt; 3);       // false</code></pre><p class="note">every: denak betetzen badu. some: batek betetzen badu.</p><div class="cardfoot"><span class="tags">every · some · array · condicion · boolean</span><button class="copy" data-copy="c37">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Arrayak</div><h2>find / findIndex</h2></div><pre><code>const ikasleak = [
+  { izena: &quot;Ane&quot;, nota: 8 },
+  { izena: &quot;Iker&quot;, nota: 4 },
+];
+
+ikasleak.find((i) =&gt; i.nota &lt; 5);      // { izena: &quot;Iker&quot;, ... }
+ikasleak.findIndex((i) =&gt; i.nota &lt; 5); // 1</code></pre><p class="note">find elementua itzultzen du; filter arraya. Ez badu aurkitzen, undefined / -1.</p><div class="cardfoot"><span class="tags">find · findindex · array · buscar · undefined</span><button class="copy" data-copy="c38">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Arrayak</div><h2>Spread eta destructuring</h2></div><pre><code>const a = [1, 2];
+const b = [...a, 3, 4];       // [1, 2, 3, 4]
+
+const [lehena, bigarrena] = b;
+
+const pertsona = { izena: &quot;Ane&quot;, adina: 21 };
+const { izena, adina } = pertsona;
+const kopia = { ...pertsona, adina: 22 };</code></pre><p class="note">...-ek array/objektuaren kopia azalekoa egiten du; destructuring-ek balioak ateratzen ditu.</p><div class="cardfoot"><span class="tags">spread · destructuring · copia · array · objeto</span><button class="copy" data-copy="c39">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Arrayak</div><h2>NodeList → array</h2></div><pre><code>const parrafoak = document.querySelectorAll(&quot;p&quot;);
+
+[...parrafoak].map((p) =&gt; p.textContent);
+// edo
+Array.from(parrafoak).forEach((p) =&gt; console.log(p));</code></pre><p class="note">querySelectorAll-ek NodeList bat itzultzen du, ez array bat; forEach badu, baina ez map.</p><div class="cardfoot"><span class="tags">nodelist · array.from · spread · queryselectorall</span><button class="copy" data-copy="c40">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Objektuak</div><h2>Objektu literala</h2></div><pre><code>const pertsona = {
+  izena: &quot;Ane&quot;,
+  adina: 21,
+  agurtu() {
+    return `Kaixo, ${this.izena}`;
+  },
+};
+
+pertsona.izena       // &quot;Ane&quot;
+pertsona[&quot;adina&quot;]    // 21
+pertsona.agurtu()    // &quot;Kaixo, Ane&quot;</code></pre><p class="note">Propietateak obj.gakoa edo obj[&quot;gakoa&quot;] bidez atzitzen dira.</p><div class="cardfoot"><span class="tags">objeto · literal · propiedad · metodo · this</span><button class="copy" data-copy="c41">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Objektuak</div><h2>Propietateak gehitu / ezabatu</h2></div><pre><code>const pertsona = { izena: &quot;Ane&quot; };
+
+pertsona.adina = 21;       // gehitu
+pertsona[&quot;email&quot;] = &quot;a@b.eus&quot;;
+delete pertsona.adina;     // ezabatu
+
+&quot;izena&quot; in pertsona;       // true</code></pre><p class="note">delete propietatea ezabatzen du, baina ez du arrayen elementurik ondo ezabatzen.</p><div class="cardfoot"><span class="tags">objeto · delete · propiedad · gehitu · ezabatu</span><button class="copy" data-copy="c42">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Objektuak</div><h2>Object.keys / values / entries</h2></div><pre><code>const pertsona = { izena: &quot;Ane&quot;, adina: 21 };
+
+Object.keys(pertsona);    // [&quot;izena&quot;, &quot;adina&quot;]
+Object.values(pertsona);  // [&quot;Ane&quot;, 21]
+Object.entries(pertsona); // [[&quot;izena&quot;,&quot;Ane&quot;], [&quot;adina&quot;,21]]</code></pre><p class="note">Objektuak iteratzeko ohiko modua: Object.entries() + for...of.</p><div class="cardfoot"><span class="tags">object.keys · values · entries · objeto · iterar</span><button class="copy" data-copy="c43">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Objektuak</div><h2>Objektuen arraya</h2></div><pre><code>const ikasleak = [
+  { izena: &quot;Ane&quot;, nota: 8 },
+  { izena: &quot;Iker&quot;, nota: 6 },
+];
+
+const gaindituak = ikasleak.filter((i) =&gt; i.nota &gt;= 5);
+const notak = ikasleak.map((i) =&gt; i.nota);
+ikasleak.sort((a, b) =&gt; b.nota - a.nota);</code></pre><p class="note">Objektuen arrayak oso ohikoak dira: filter, map eta sort konbinatu.</p><div class="cardfoot"><span class="tags">objeto · array · sort · filter · map</span><button class="copy" data-copy="c44">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Objektuak</div><h2>this metodoan</h2></div><pre><code>const pertsona = {
+  izena: &quot;Ane&quot;,
+  agurtu() {
+    return this.izena;
+  },
+};
+
+pertsona.agurtu();  // &quot;Ane&quot;
+
+const f = pertsona.agurtu;
+f();                // ⚠️ this galdu da</code></pre><p class="note">this metodoaren deitzailearen araberakoa da; arrow funtzioek ez dute this propiorik.</p><div class="cardfoot"><span class="tags">this · metodo · contexto · deitzaile · arrow</span><button class="copy" data-copy="c45">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Objektuak</div><h2>Erreferentzia eta kopia</h2></div><pre><code>const a = { izena: &quot;Ane&quot; };
+const b = a;
+
+b.izena = &quot;Iker&quot;;
+console.log(a.izena); // &quot;Iker&quot; ⚠️
+
+const c = { ...a };   // kopia azalekoa
+c.izena = &quot;Maite&quot;;
+console.log(a.izena); // &quot;Iker&quot;</code></pre><p class="note">Objektuak erreferentziaz pasatzen dira; kopia egiteko { ...obj } edo structuredClone().</p><div class="cardfoot"><span class="tags">referencia · objeto · copia · spread · mutable</span><button class="copy" data-copy="c46">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Prototipoak / Klaseak</div><h2>Prototipo-konstruktorea</h2></div><pre><code>function Pertsona(izena, adina) {
+  this.izena = izena;
+  this.adina = adina;
+}
+
+Pertsona.prototype.agurtu = function () {
+  return `Kaixo, ${this.izena}`;
+};
+
+const ane = new Pertsona(&quot;Ane&quot;, 21);
+ane.agurtu();
+ane instanceof Pertsona; // true</code></pre><p class="note">new gabe deituta, this ez da objektu berria. Metodoak prototipoan jartzea eraginkorra da.</p><div class="cardfoot"><span class="tags">prototipo · constructor · prototype · new · instanceof</span><button class="copy" data-copy="c47">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Prototipoak / Klaseak</div><h2>Klasea</h2></div><pre><code>class Pertsona {
+  constructor(izena, adina) {
+    this.izena = izena;
+    this.adina = adina;
+  }
+
+  agurtu() {
+    return `Kaixo, ${this.izena}`;
+  }
+}
+
+const ane = new Pertsona(&quot;Ane&quot;, 21);</code></pre><p class="note">class prototipoen gaineko sintaxi modernoa da; new behar da.</p><div class="cardfoot"><span class="tags">class · clase · constructor · new · metodo</span><button class="copy" data-copy="c48">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Prototipoak / Klaseak</div><h2>get / set</h2></div><pre><code>class Erabiltzailea {
+  constructor(nick) {
+    this._nick = nick;
+  }
+
+  get nick() {
+    return this._nick;
+  }
+
+  set nick(balioa) {
+    if (!balioa) throw new Error(&quot;Hutsik ez&quot;);
+    this._nick = balioa;
+  }
+}
+
+const e = new Erabiltzailea(&quot;ane&quot;);
+e.nick = &quot;iker&quot;;</code></pre><p class="note">get/set propietate gisa erabiltzen dira (e.nick, ez e.nick()).</p><div class="cardfoot"><span class="tags">get · set · getter · setter · encapsulacion</span><button class="copy" data-copy="c49">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Prototipoak / Klaseak</div><h2>static</h2></div><pre><code>class Pertsona {
+  static espeziea() {
+    return &quot;Gizakia&quot;;
+  }
+}
+
+Pertsona.espeziea();         // ✅
+// new Pertsona().espeziea(); // ❌</code></pre><p class="note">static metodoak klaseari dagozkio, ez instantziei.</p><div class="cardfoot"><span class="tags">static · clase · metodo · instancia</span><button class="copy" data-copy="c50">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Prototipoak / Klaseak</div><h2>Herentzia: extends / super</h2></div><pre><code>class Ikaslea extends Pertsona {
+  constructor(izena, adina, ikastetxea) {
+    super(izena, adina);   // derrigorrezkoa
+    this.ikastetxea = ikastetxea;
+  }
+
+  agurtu() {
+    return `${super.agurtu()} (${this.ikastetxea})`;
+  }
+}</code></pre><p class="note">super() deitu aurretik ezin da this erabili. super.metodoa() gurasoaren bertsioa deitzen du.</p><div class="cardfoot"><span class="tags">extends · super · herencia · clase · hijo</span><button class="copy" data-copy="c51">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Prototipoak / Klaseak</div><h2>Prototipoak vs. klaseak</h2></div><pre><code>// Prototipoak
+function A() {}
+A.prototype.f = function () {};
+
+// Klaseak
+class B {
+  f() {}
+}
+
+new A().f();
+new B().f();</code></pre><p class="note">Klaseak prototipo-katearen gainean eraikitako sintaxia dira: funtzionamendua antzekoa da.</p><div class="cardfoot"><span class="tags">prototipo · clase · comparacion · herencia</span><button class="copy" data-copy="c52">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Moduluak</div><h2>export</h2></div><pre><code>// mates.js
+export const PI = 3.1416;
+
+export function batu(a, b) {
+  return a + b;
+}
+
+export default class Kalkulagailua {
+  biderkatu(a, b) {
+    return a * b;
+  }
+}</code></pre><p class="note">Named export: bat baino gehiago. Default export: modulu bakoitzeko bakarra.</p><div class="cardfoot"><span class="tags">export · named · default · modulo · mates</span><button class="copy" data-copy="c53">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Moduluak</div><h2>import</h2></div><pre><code>&lt;script type=&quot;module&quot;&gt;
+  import Kalkulagailua, { PI, batu } from &quot;./mates.js&quot;;
+
+  console.log(PI, batu(2, 3));
+  console.log(new Kalkulagailua().biderkatu(2, 3));
+&lt;/script&gt;</code></pre><p class="note">type=&quot;module&quot; behar da; bideak ./ edo ../ eta luzapenarekin. file:// ez da fidagarria.</p><div class="cardfoot"><span class="tags">import · modulo · type module · script · ruta</span><button class="copy" data-copy="c54">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Moduluak</div><h2>import * as</h2></div><pre><code>import * as mates from &quot;./mates.js&quot;;
+
+mates.PI;
+mates.batu(2, 3);
+mates.default;   // default export</code></pre><p class="note">Modulu osoa objektu gisa inportatzeko. Default export-a default propietatean dago.</p><div class="cardfoot"><span class="tags">import · namespace · modulo · default</span><button class="copy" data-copy="c55">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">DOM</div><h2>DOM zuhaitza</h2></div><pre><code>document
+└── html
+    ├── head
+    │   └── title
+    └── body
+        ├── h1
+        └── p</code></pre><p class="note">DOM = HTML dokumentuaren zuhaitza. Nodo motak: elementua, atributua eta testua.</p><div class="cardfoot"><span class="tags">dom · arbol · nodo · document · html</span><button class="copy" data-copy="c56">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">DOM</div><h2>getElementById</h2></div><pre><code>const mezua = document.getElementById(&quot;mezua&quot;);
+
+mezua.textContent = &quot;Kaixo&quot;;</code></pre><p class="note">ID bidez elementu bakarra. IDa bakarra izan behar da dokumentuan.</p><div class="cardfoot"><span class="tags">getelementbyid · seleccionar · id · dom</span><button class="copy" data-copy="c57">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">DOM</div><h2>querySelector / querySelectorAll</h2></div><pre><code>const karta = document.querySelector(&quot;.karta&quot;);
+const parrafoak = document.querySelectorAll(&quot;p&quot;);
+
+parrafoak.length;
+parrafoak[0];</code></pre><p class="note">querySelector → lehen elementua (edo null). querySelectorAll → NodeList (guztiak).</p><div class="cardfoot"><span class="tags">queryselector · queryselectorall · css · selector · nodelist</span><button class="copy" data-copy="c58">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">DOM</div><h2>Beste hautatzaileak</h2></div><pre><code>document.getElementsByClassName(&quot;nabarmendu&quot;);
+document.getElementsByTagName(&quot;a&quot;);
+document.getElementsByName(&quot;izena&quot;);</code></pre><p class="note">HTMLCollection bizia edo NodeList itzultzen dute. querySelector/querySelectorAll erabili lehenetsi.</p><div class="cardfoot"><span class="tags">getelementsbyclassname · getelementsbytagname · getelementsbyname · htmlcollection · nodelist</span><button class="copy" data-copy="c59">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">DOM</div><h2>textContent vs. innerHTML</h2></div><pre><code>elementua.textContent = &quot;Testu hutsa&quot;;         // segurua
+elementua.innerHTML = &quot;&lt;strong&gt;HTML&lt;/strong&gt;&quot;; // HTMLa interpretatzen du</code></pre><p class="note">Erabiltzailearen datuak innerHTML-n sartzeak XSS arriskua du; testurako textContent.</p><div class="cardfoot"><span class="tags">textcontent · innerhtml · xss · seguridad · dom</span><button class="copy" data-copy="c60">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">DOM</div><h2>classList / style</h2></div><pre><code>elementua.classList.add(&quot;aktiboa&quot;);
+elementua.classList.remove(&quot;ezkutua&quot;);
+elementua.classList.toggle(&quot;nabarmendua&quot;);
+elementua.classList.contains(&quot;aktiboa&quot;); // true
+
+elementua.style.color = &quot;red&quot;;
+elementua.style.display = &quot;none&quot;;</code></pre><p class="note">classList erabili className baino lehen; estiloak style bidez.</p><div class="cardfoot"><span class="tags">classlist · style · css · clase · dom</span><button class="copy" data-copy="c61">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">DOM</div><h2>Atributuak / dataset</h2></div><pre><code>elementua.setAttribute(&quot;data-egoera&quot;, &quot;ok&quot;);
+elementua.getAttribute(&quot;data-egoera&quot;);    // &quot;ok&quot;
+elementua.removeAttribute(&quot;data-egoera&quot;);
+
+elementua.dataset.egoera;                 // &quot;ok&quot;
+elementua.dataset.egoera = &quot;errorea&quot;;</code></pre><p class="note">data-* atributuak dataset bidez atzitzen dira (kamelCase bihurtuta).</p><div class="cardfoot"><span class="tags">atributo · setattribute · getattribute · dataset · data</span><button class="copy" data-copy="c62">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">DOM</div><h2>createElement / appendChild</h2></div><pre><code>const lista = document.getElementById(&quot;lista&quot;);
+
+const li = document.createElement(&quot;li&quot;);
+li.textContent = &quot;Elementu berria&quot;;
+lista.appendChild(li);</code></pre><p class="note">Elementua sortu → edukia ezarri → gurasoari gehitu.</p><div class="cardfoot"><span class="tags">createelement · appendchild · crear · dom · li</span><button class="copy" data-copy="c63">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">DOM</div><h2>insertBefore / before / after</h2></div><pre><code>lista.insertBefore(berria, lista.firstElementChild);
+elementua.before(berria);
+elementua.after(berria);</code></pre><p class="note">Posizio zehatzean sartzeko. before/after elementuaren senide gisa gehitzen dute.</p><div class="cardfoot"><span class="tags">insertbefore · before · after · dom · posizio</span><button class="copy" data-copy="c64">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">DOM</div><h2>remove / replaceChild</h2></div><pre><code>elementua.remove();
+lista.removeChild(lista.lastElementChild);
+
+lista.replaceChild(berria, lista.children[1]);</code></pre><p class="note">Elementuak ezabatzeko edo ordezkatzeko.</p><div class="cardfoot"><span class="tags">remove · removechild · replacechild · ezabatu · dom</span><button class="copy" data-copy="c65">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">DOM</div><h2>Nabigazioa</h2></div><pre><code>elementua.parentElement;
+elementua.children;              // elementuak
+elementua.childNodes;            // nodo guztiak
+elementua.firstElementChild;
+elementua.nextElementSibling;
+elementua.previousElementSibling;
+elementua.contains(bestela);</code></pre><p class="note">children vs. childNodes: bigarrenak testu-nodoak eta iruzkinak sartzen ditu.</p><div class="cardfoot"><span class="tags">parentelement · children · childnodes · sibling · navegacion</span><button class="copy" data-copy="c66">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">DOM</div><h2>cloneNode</h2></div><pre><code>const kopia = li.cloneNode(true); // true = ondorengoekin
+lista.appendChild(kopia);</code></pre><p class="note">false (edo ezer ez) bada, elementua hutsik klonatzen da.</p><div class="cardfoot"><span class="tags">clonenode · clonar · copia · dom</span><button class="copy" data-copy="c67">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Gertaerak</div><h2>addEventListener</h2></div><pre><code>const botoia = document.getElementById(&quot;botoia&quot;);
+
+botoia.addEventListener(&quot;click&quot;, (event) =&gt; {
+  console.log(&quot;Klik!&quot;, event.target);
+});</code></pre><p class="note">Gertaerak addEventListener bidez lotzen dira; onclick baino malguagoa.</p><div class="cardfoot"><span class="tags">addeventlistener · evento · click · event · target</span><button class="copy" data-copy="c68">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Gertaerak</div><h2>Formularioa: submit</h2></div><pre><code>const forma = document.querySelector(&quot;form&quot;);
+
+forma.addEventListener(&quot;submit&quot;, (e) =&gt; {
+  e.preventDefault();
+  const izena = document.querySelector(&quot;#izena&quot;).value.trim();
+  if (!izena) return;
+  console.log(izena);
+});</code></pre><p class="note">preventDefault() gabe orria berriz kargatzen da. value beti string da.</p><div class="cardfoot"><span class="tags">submit · preventdefault · formulario · form · value</span><button class="copy" data-copy="c69">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Gertaerak</div><h2>DOMContentLoaded / load</h2></div><pre><code>document.addEventListener(&quot;DOMContentLoaded&quot;, () =&gt; {
+  console.log(&quot;DOM prest&quot;);
+});
+
+window.addEventListener(&quot;load&quot;, () =&gt; {
+  console.log(&quot;Dena kargatuta&quot;);
+});</code></pre><p class="note">DOMContentLoaded: HTMLa parseatuta. load: irudiak eta baliabideak ere bai.</p><div class="cardfoot"><span class="tags">domcontentloaded · load · evento · karga</span><button class="copy" data-copy="c70">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Gertaerak</div><h2>Teklatua</h2></div><pre><code>document.addEventListener(&quot;keydown&quot;, (e) =&gt; {
+  if (e.key === &quot;Enter&quot;) {
+    console.log(&quot;Enter&quot;);
+  }
+});</code></pre><p class="note">e.key teklaren izena ematen du; e.preventDefault() portaera lehenetsia ekiditeko.</p><div class="cardfoot"><span class="tags">keydown · teclado · enter · event · key</span><button class="copy" data-copy="c71">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Gertaerak</div><h2>Event delegation</h2></div><pre><code>lista.addEventListener(&quot;click&quot;, (e) =&gt; {
+  if (e.target.matches(&quot;li&quot;)) {
+    console.log(&quot;Klik:&quot;, e.target.textContent);
+  }
+});</code></pre><p class="note">Guraso bakarrean entzunda, seme dinamiko guztiak kudea daitezke (delegazioa). Gertaerak burbuileatzen dira; stopPropagation() erabili behar denean.</p><div class="cardfoot"><span class="tags">delegacion · event delegation · matches · target · lista</span><button class="copy" data-copy="c72">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Web APIak</div><h2>setTimeout / setInterval</h2></div><pre><code>const id = setTimeout(() =&gt; {
+  console.log(&quot;Behin&quot;);
+}, 1000);
+
+const intervaloa = setInterval(() =&gt; {
+  console.log(&quot;Aldiro&quot;);
+}, 1000);
+
+clearTimeout(id);
+clearInterval(intervaloa);</code></pre><p class="note">setTimeout behin; setInterval aldiro. Garbitzea ahaztu gero memoria/isuria.</p><div class="cardfoot"><span class="tags">settimeout · setinterval · cleartimeout · clearinterval · timer</span><button class="copy" data-copy="c73">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Web APIak</div><h2>localStorage</h2></div><pre><code>localStorage.setItem(&quot;izena&quot;, &quot;Ane&quot;);
+localStorage.getItem(&quot;izena&quot;);     // &quot;Ane&quot;
+localStorage.removeItem(&quot;izena&quot;);
+localStorage.clear();</code></pre><p class="note">Balioak string gisa gordetzen dira. localStorage iraunkorra da; sessionStorage fitxakoa.</p><div class="cardfoot"><span class="tags">localstorage · storage · setitem · getitem · removeitem</span><button class="copy" data-copy="c74">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Web APIak</div><h2>Objektua storagean</h2></div><pre><code>const datua = { izena: &quot;Ane&quot;, adina: 21 };
+
+localStorage.setItem(&quot;erabiltzailea&quot;, JSON.stringify(datua));
+
+const gordea = localStorage.getItem(&quot;erabiltzailea&quot;);
+const objektua = gordea ? JSON.parse(gordea) : null;</code></pre><p class="note">Objektuak gordetzeko JSON.stringify; irakurtzeko JSON.parse.</p><div class="cardfoot"><span class="tags">localstorage · json · stringify · parse · objeto</span><button class="copy" data-copy="c75">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Web APIak</div><h2>Geolocation</h2></div><pre><code>navigator.geolocation.getCurrentPosition(
+  (posizioa) =&gt; {
+    const { latitude, longitude, accuracy } = posizioa.coords;
+    console.log(latitude, longitude, accuracy);
+  },
+  (errorea) =&gt; {
+    console.error(errorea.message);
+  }
+);</code></pre><p class="note">HTTPS edo localhost behar da; erabiltzailearen baimena eta erantzun asinkronoa.</p><div class="cardfoot"><span class="tags">geolocation · posicion · latitude · longitude · permisos</span><button class="copy" data-copy="c76">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Web APIak</div><h2>fetch</h2></div><pre><code>async function datuakKargatu() {
+  try {
+    const erantzuna = await fetch(&quot;datuak.json&quot;);
+    if (!erantzuna.ok) throw new Error(`HTTP ${erantzuna.status}`);
+    const datuak = await erantzuna.json();
+    console.log(datuak);
+  } catch (errorea) {
+    console.error(errorea.message);
+  }
+}</code></pre><p class="note">fetch ez da errorea botatzen 4xx/5xx bada; response.ok egiaztatu.</p><div class="cardfoot"><span class="tags">fetch · async · await · json · response.ok</span><button class="copy" data-copy="c77">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Web APIak</div><h2>async / await</h2></div><pre><code>async function kargatu() {
+  const r = await fetch(&quot;/api/items&quot;);
+  const datuak = await r.json();
+  return datuak;
+}
+
+kargatu().then((datuak) =&gt; console.log(datuak));</code></pre><p class="note">async funtzioak beti Promise bat itzultzen du; await promesa baten emaitzaren zain geratzen da.</p><div class="cardfoot"><span class="tags">async · await · promise · fetch · asincrono</span><button class="copy" data-copy="c78">Kopiatu</button></div></article><article class="card"><div class="cardhead"><div class="badge">Web APIak</div><h2>Beste Web APIak</h2></div><pre><code>navigator.clipboard.writeText(&quot;Kaixo&quot;);
+
+new Notification(&quot;Kaixo!&quot;);
+
+const ctx = canvas.getContext(&quot;2d&quot;);</code></pre><p class="note">Clipboard, Notification eta Canvas APIak; batzuek baimena edo HTTPS behar dute.</p><div class="cardfoot"><span class="tags">clipboard · notification · canvas · web api · permisos</span><button class="copy" data-copy="c79">Kopiatu</button></div></article></section><div id="empty" class="empty" style="display: none;">Ez da emaitzarik aurkitu. Saiatu beste hitz batekin.</div></main><footer><div class="wrap">Bezero-inguruneko programazioa · JavaScript, DOM eta Web APIen erreferentzia azkarra · Ez da tutoriala ezta soluzio-bilduma ere.</div></footer><script>
+const CARDS=[{"id":"c1","title":"Script-a HTMLan sartzea","cat":"JavaScript oinarriak","keywords":["script","defer","module","noscript","html"],"code":"\u003cscript src=\"app.js\" defer>\u003c/script>\n\u003cscript type=\"module\" src=\"app.js\">\u003c/script>\n\n\u003cnoscript>Gaitu JavaScript nabigatzailean.\u003c/noscript>","note":"defer: HTMLa parseatu ondoren, ordena mantenduz. type=\"module\": strict mode eta scope propioa."},{"id":"c2","title":"Irteerak eta sarrerak","cat":"JavaScript oinarriak","keywords":["console","alert","confirm","prompt","irteera","sarrera"],"code":"console.log(\"Kaixo\");\nalert(\"Kaixo\");\nconst bai = confirm(\"Seguru?\");\nconst izena = prompt(\"Izena?\");","note":"confirm() → true/false; prompt() → string edo null. console.log() da arazketarako tresna nagusia."},{"id":"c3","title":"Aldagaiak: const / let","cat":"JavaScript oinarriak","keywords":["const","let","var","aldagai","scope","variable"],"code":"const izena = \"Ane\";   // ezin da berriro esleitu\nlet adina = 18;        // alda daiteke\nadina = 19;\n\nconst pertsona = { izena: \"Ane\" };\npertsona.izena = \"Iker\";  // ✅ edukia alda daiteke","note":"const lehenetsi; let balioa aldatuko bada. var ez erabili (funtzio-scopea)."},{"id":"c4","title":"Scopea","cat":"JavaScript oinarriak","keywords":["scope","bloke","funtzio","hoisting","tdz","var","let"],"code":"{\n  let barnekoa = 1;   // blokean soilik\n  var kanpokoa = 2;   // funtzio osoan\n}\n\nfunction f() {\n  let tokikoa = 3;    // funtzioan soilik\n}","note":"let/const bloke-scopea dute; var funtzio-scopea. let/const aldagaiek TDZ dute."},{"id":"c5","title":"Tipoak eta typeof","cat":"JavaScript oinarriak","keywords":["typeof","tipo","number","string","boolean","object","undefined","null","array"],"code":"typeof 42           // \"number\"\ntypeof \"kaixo\"      // \"string\"\ntypeof true         // \"boolean\"\ntypeof {}           // \"object\"\ntypeof []           // \"object\"\ntypeof null         // \"object\"  ⚠️\ntypeof undefined    // \"undefined\"\ntypeof function(){} // \"function\"","note":"Array.isArray([]) → true. typeof null → \"object\" da JSren klasiko bat."},{"id":"c6","title":"Balio falsy / truthy","cat":"JavaScript oinarriak","keywords":["falsy","truthy","baldintza","if","null","undefined","nan"],"code":"// Falsy:\nfalse  0  -0  \"\"  null  undefined  NaN\n\n// Truthy (baita hauek ere):\n[]  {}  \"0\"  \"false\"  -1","note":"Baldintzetan if (balioa) erabiltzean, falsy zerrenda hau gogoratu."},{"id":"c7","title":"Bihurketa eta koakzioa","cat":"JavaScript oinarriak","keywords":["koakzio","coercion","number","parseint","parsefloat","nan","string"],"code":"\"5\" + 2          // \"52\"\n\"5\" - 2          // 3\nNumber(\"12\")     // 12\nNumber(\"12px\")   // NaN\nparseInt(\"12px\") // 12\nBoolean(0)       // false\n(0.1 + 0.2) === 0.3  // false ⚠️","note":"+ eragilea berezia da: string batekin batuta, dena string bihurtzen da."},{"id":"c8","title":"== vs. ===","cat":"JavaScript oinarriak","keywords":["==","===","konparazio","comparacion","igualdad","strict"],"code":"0 == \"0\"    // true  ⚠️\n0 === \"0\"   // false ✅\nnull == undefined   // true\nnull === undefined  // false\n\"5\" !== 5   // true","note":"Beti === eta !== erabili. ==-k motak bihurtzen ditu."},{"id":"c9","title":"Eragileak","cat":"JavaScript oinarriak","keywords":["eragile","operador","aritmetiko","logiko","ternario","typeof","instanceof"],"code":"+  -  *  /  %  **  ++  --\n=  +=  -=  *=  /=\n&&  ||  !\nbaldintza ? balioa1 : balioa2\ntypeof x\nx instanceof Klasea","note":"Aritmetikoak, esleipena, konparazioa eta logikoak bereizi. Ternarioak if laburra ordezkatzen du."},{"id":"c10","title":"if / else if / else","cat":"JavaScript oinarriak","keywords":["if","else","baldintza","condicional"],"code":"if (adina >= 18) {\n  console.log(\"Nagusia\");\n} else if (adina >= 16) {\n  console.log(\"Enantzintzakoa\");\n} else {\n  console.log(\"Adingabea\");\n}","note":"Baldintzak parentesi artean; blokeak beti giltza artean."},{"id":"c11","title":"switch","cat":"JavaScript oinarriak","keywords":["switch","case","break","default","fall-through"],"code":"switch (eguna) {\n  case \"larunbata\":\n  case \"igandea\":\n    console.log(\"Asteburua\");\n    break;\n  default:\n    console.log(\"Laneguna\");\n}","note":"break ahazten bada, hurrengo case-ra pasatzen da (fall-through)."},{"id":"c12","title":"for","cat":"JavaScript oinarriak","keywords":["for","begizta","bucle","iterazio","contador"],"code":"for (let i = 0; i \u003c 5; i++) {\n  console.log(i);\n}\n\nfor (let i = 10; i > 0; i -= 2) {\n  console.log(i);\n}","note":"Iterazio-kopurua ezaguna denean. i aldagaia blokean dago."},{"id":"c13","title":"while / do...while","cat":"JavaScript oinarriak","keywords":["while","do while","begizta","bucle"],"code":"let x = 0;\nwhile (x \u003c 3) {\n  console.log(x);\n  x++;\n}\n\ndo {\n  console.log(\"Gutxienez behin\");\n} while (false);","note":"while: baldintza bete arte. do...while: gutxienez behin exekutatzen da."},{"id":"c14","title":"for...of / for...in","cat":"JavaScript oinarriak","keywords":["for of","for in","iterazio","array","objeto","gako","balio"],"code":"const frutak = [\"banana\", \"sagarra\"];\n\nfor (const fruta of frutak) {\n  console.log(fruta);        // balioa\n}\n\nfor (const indizea in frutak) {\n  console.log(indizea);      // gakoa / indizea\n}","note":"for...of → balioak (arrayak, stringak). for...in → gakoak (objektuak). Arrayekin of erabili."},{"id":"c15","title":"break / continue","cat":"JavaScript oinarriak","keywords":["break","continue","begizta","saltatu"],"code":"for (let i = 0; i \u003c 10; i++) {\n  if (i === 3) continue;  // 3 saltatu\n  if (i === 7) break;     // begizta utzi\n  console.log(i);\n}","note":"continue: iterazio hau saltatu. break: begizta osoa utzi."},{"id":"c16","title":"Funtzio-deklarazioa","cat":"Funtzioak","keywords":["function","funtzio","return","declaracion","expresion"],"code":"function batu(a, b) {\n  return a + b;\n}\n\nconst kendu = function (a, b) {\n  return a - b;\n};","note":"return gabe funtzioak undefined itzultzen du. Funtzioa balio bat da."},{"id":"c17","title":"Arrow function","cat":"Funtzioak","keywords":["arrow","flecha","funcion","this","arguments"],"code":"const biderkatu = (a, b) => a * b;\n\nconst agurtu = (izena) => {\n  return `Kaixo, ${izena}!`;\n};","note":"Arrow funtzioek ez dute this propiorik eta ezin dute arguments erabili."},{"id":"c18","title":"Parametro lehenetsiak","cat":"Funtzioak","keywords":["parametro","default","lehenetsi","funcion"],"code":"function agurtu(izena = \"ikasle\") {\n  return `Kaixo, ${izena}!`;\n}\n\nagurtu();       // \"Kaixo, ikasle!\"\nagurtu(\"Ane\");  // \"Kaixo, Ane!\"","note":"Parametroa ez bada pasatzen, balio lehenetsia erabiltzen da."},{"id":"c19","title":"Rest parametroak","cat":"Funtzioak","keywords":["rest","spread","parametro","arguments","array"],"code":"function batuGuztiak(...zenbakiak) {\n  return zenbakiak.reduce((acc, n) => acc + n, 0);\n}\n\nbatuGuztiak(1, 2, 3);  // 6","note":"...-ek gainerako argumentuak array batean biltzen ditu."},{"id":"c20","title":"Callback","cat":"Funtzioak","keywords":["callback","funcion","map","parametro"],"code":"function exekutatu(fn) {\n  fn(\"Kaixo\");\n}\n\nexekutatu((mezua) => console.log(mezua));\n\nconst bikoiztu = [1, 2, 3].map((n) => n * 2);","note":"Callback: beste funtzio bati parametro gisa pasatzen zaion funtzioa."},{"id":"c21","title":"String metodoak","cat":"String / Math","keywords":["string","trim","slice","includes","split","replace","length"],"code":"const s = \"  Kaixo, Mundua!  \";\ns.length            // 18\ns.trim()            // \"Kaixo, Mundua!\"\ns.toUpperCase()\ns.charAt(2)         // \"K\"\ns.at(-1)            // \"!\"\ns.indexOf(\"Mundua\") // 9\ns.includes(\"Kaixo\") // true\ns.slice(2, 7)       // \"Kaixo\"\ns.split(\", \")\ns.replace(\"Mundua\", \"Denok\")\ns.repeat(2)","note":"Stringak aldaezinak dira: metodoek string berria itzultzen dute."},{"id":"c22","title":"Template literal","cat":"String / Math","keywords":["template literal","backtick","interpolacion","string"],"code":"const izena = \"Ane\";\nconst adina = 21;\n\nconsole.log(`Kaixo, ${izena}. ${adina} urte dituzu.`);\nconsole.log(`Batura: ${2 + 3}`);","note":"Backtick-ak erabili; ${...} barruan edozein adierazpen jar daiteke."},{"id":"c23","title":"Zenbaki-bihurketa","cat":"String / Math","keywords":["number","parseint","parsefloat","tofixed","nan","bihurketa"],"code":"Number(\"42\")       // 42\nNumber(\"42px\")     // NaN\nparseInt(\"42px\")   // 42\nparseFloat(\"3.14\") // 3.14\n(3.14159).toFixed(2) // \"3.14\" (string!)\nNumber.isNaN(NaN)  // true","note":"toFixed() string bat itzultzen du. prompt() beti string da."},{"id":"c24","title":"Math","cat":"String / Math","keywords":["math","round","floor","ceil","abs","max","min","random"],"code":"Math.round(4.6)   // 5\nMath.floor(4.9)   // 4\nMath.ceil(4.1)    // 5\nMath.abs(-7)      // 7\nMath.max(3, 9, 2) // 9\nMath.min(3, 9, 2) // 2\nMath.pow(2, 8)    // 256\nMath.random()     // [0, 1)","note":"Math.random() inoiz ez da 1era iristen; tarteak ondo kalkulatu."},{"id":"c25","title":"Dadoa / tarte zuzena","cat":"String / Math","keywords":["random","dado","tarte","rango","math"],"code":"// 1etik 6ra\nMath.floor(Math.random() * 6) + 1\n\n// 1etik 10era\nMath.floor(Math.random() * 10) + 1\n\n// min eta max artean\nMath.floor(Math.random() * (max - min + 1)) + min","note":"⚠️ Math.floor(Math.random() * 6) → 0 atera daiteke; + 1 behar da."},{"id":"c26","title":"Date","cat":"String / Math","keywords":["date","data","orain","getmonth","tolocaledatestring"],"code":"const orain = new Date();\n\norain.getFullYear();\norain.getMonth();      // 0-11 ⚠️\norain.getDate();\norain.getDay();        // 0 = igandea\norain.toLocaleDateString(\"eu\");\norain.toLocaleTimeString(\"eu\");","note":"getMonth() 0tik hasten da (urtarrila = 0). Data formaturako toLocale... erabili."},{"id":"c27","title":"Arraya sortu eta atzitu","cat":"Arrayak","keywords":["array","indize","length","at","sortu"],"code":"const frutak = [\"banana\", \"sagarra\", \"udarea\"];\nconst zenbakiak = [4, 8, 15, 16];\n\nfrutak[0]      // \"banana\"\nfrutak.length  // 3\nfrutak.at(-1)  // \"udarea\"","note":"Arraya objektu bat da; indizeak 0tik hasten dira."},{"id":"c28","title":"push / pop / shift / unshift","cat":"Arrayak","keywords":["push","pop","shift","unshift","array","mutar"],"code":"const a = [1, 2, 3];\n\na.push(4);      // [1, 2, 3, 4]  amaieran\na.pop();        // 4 → [1, 2, 3]\na.unshift(0);   // [0, 1, 2, 3]  hasieran\na.shift();      // 0 → [1, 2, 3]","note":"Lau metodo hauek jatorrizko arraya aldatzen dute."},{"id":"c29","title":"slice vs. splice","cat":"Arrayak","keywords":["slice","splice","array","kopiatu","ezabatu"],"code":"const a = [1, 2, 3, 4, 5];\n\na.slice(1, 3);   // [2, 3]  (ez du aldatzen)\na.slice(-2);     // [4, 5]\n\nconst b = [...a];\nb.splice(1, 2, 9); // [1, 9, 4, 5] (aldatzen du)","note":"slice kopiatzen du; splice jatorrizkoa aldatzen du."},{"id":"c30","title":"concat / join / includes","cat":"Arrayak","keywords":["concat","join","indexof","includes","array"],"code":"const a = [1, 2];\nconst b = [3, 4];\n\na.concat(b);        // [1, 2, 3, 4]\na.join(\"-\");        // \"1-2\"\na.indexOf(2);       // 1\na.includes(9);      // false","note":"join string bihurtzen du; includes true/false itzultzen du."},{"id":"c31","title":"sort","cat":"Arrayak","keywords":["sort","ordenatu","comparador","numerico"],"code":"const zenbakiak = [10, 2, 1];\nzenbakiak.sort();              // [1, 10, 2] ⚠️ string gisa\n\nzenbakiak.sort((a, b) => a - b); // [1, 2, 10] ✅\nzenbakiak.sort((a, b) => b - a); // [10, 2, 1]","note":"Zenbakietan beti konparatzailea pasa. sort()-ek jatorrizkoa aldatzen du."},{"id":"c32","title":"reverse / toSorted","cat":"Arrayak","keywords":["reverse","tosorted","array","ordenatu","copia"],"code":"const a = [3, 1, 2];\n\na.reverse();          // [2, 1, 3] (aldatzen du)\na.toSorted((x, y) => x - y); // [1, 2, 3] (kopia)","note":"reverse-ek jatorrizkoa aldatzen du; toSorted-ek array berria itzultzen du."},{"id":"c33","title":"map","cat":"Arrayak","keywords":["map","array","transformar","nuevo array"],"code":"const prezioak = [100, 250, 400];\n\nconst iva = prezioak.map((p) => p * 1.21);\n// [121, 302.5, 484]\n\nconst izenak = ikasleak.map((i) => i.izena);","note":"map-ek array berria itzultzen du, elementu bakoitza eraldatuta."},{"id":"c34","title":"filter","cat":"Arrayak","keywords":["filter","filtrar","iragazi","array","condicion"],"code":"const prezioak = [100, 250, 400, 600];\n\nconst garestiak = prezioak.filter((p) => p > 300);\n// [400, 600]\n\nconst bikoitiak = [1, 2, 3, 4].filter((n) => n % 2 === 0);\n// [2, 4]","note":"filter baldintza betetzen duten elementuen array berria itzultzen du."},{"id":"c35","title":"reduce","cat":"Arrayak","keywords":["reduce","acumulador","batura","suma","max"],"code":"const zenbakiak = [1, 2, 3, 4];\n\nconst batura = zenbakiak.reduce((acc, n) => acc + n, 0);\n// 10\n\nconst max = zenbakiak.reduce((a, b) => (b > a ? b : a));\n// 4","note":"Hasierako balioa (0, [], {}) ematea gomendagarria da."},{"id":"c36","title":"forEach","cat":"Arrayak","keywords":["foreach","iterar","array","undefined"],"code":"const frutak = [\"banana\", \"sagarra\"];\n\nfrutak.forEach((fruta, i) => {\n  console.log(i, fruta);\n});\n// 0 banana\n// 1 sagarra","note":"forEach-ek ez du ezer itzultzen (undefined); alboko efektuetarako da."},{"id":"c37","title":"every / some","cat":"Arrayak","keywords":["every","some","array","condicion","boolean"],"code":"const zenbakiak = [2, 4, 6];\n\nzenbakiak.every((n) => n % 2 === 0); // true\nzenbakiak.some((n) => n > 5);        // true\nzenbakiak.every((n) => n > 3);       // false","note":"every: denak betetzen badu. some: batek betetzen badu."},{"id":"c38","title":"find / findIndex","cat":"Arrayak","keywords":["find","findindex","array","buscar","undefined"],"code":"const ikasleak = [\n  { izena: \"Ane\", nota: 8 },\n  { izena: \"Iker\", nota: 4 },\n];\n\nikasleak.find((i) => i.nota \u003c 5);      // { izena: \"Iker\", ... }\nikasleak.findIndex((i) => i.nota \u003c 5); // 1","note":"find elementua itzultzen du; filter arraya. Ez badu aurkitzen, undefined / -1."},{"id":"c39","title":"Spread eta destructuring","cat":"Arrayak","keywords":["spread","destructuring","copia","array","objeto"],"code":"const a = [1, 2];\nconst b = [...a, 3, 4];       // [1, 2, 3, 4]\n\nconst [lehena, bigarrena] = b;\n\nconst pertsona = { izena: \"Ane\", adina: 21 };\nconst { izena, adina } = pertsona;\nconst kopia = { ...pertsona, adina: 22 };","note":"...-ek array/objektuaren kopia azalekoa egiten du; destructuring-ek balioak ateratzen ditu."},{"id":"c40","title":"NodeList → array","cat":"Arrayak","keywords":["nodelist","array.from","spread","queryselectorall"],"code":"const parrafoak = document.querySelectorAll(\"p\");\n\n[...parrafoak].map((p) => p.textContent);\n// edo\nArray.from(parrafoak).forEach((p) => console.log(p));","note":"querySelectorAll-ek NodeList bat itzultzen du, ez array bat; forEach badu, baina ez map."},{"id":"c41","title":"Objektu literala","cat":"Objektuak","keywords":["objeto","literal","propiedad","metodo","this"],"code":"const pertsona = {\n  izena: \"Ane\",\n  adina: 21,\n  agurtu() {\n    return `Kaixo, ${this.izena}`;\n  },\n};\n\npertsona.izena       // \"Ane\"\npertsona[\"adina\"]    // 21\npertsona.agurtu()    // \"Kaixo, Ane\"","note":"Propietateak obj.gakoa edo obj[\"gakoa\"] bidez atzitzen dira."},{"id":"c42","title":"Propietateak gehitu / ezabatu","cat":"Objektuak","keywords":["objeto","delete","propiedad","gehitu","ezabatu"],"code":"const pertsona = { izena: \"Ane\" };\n\npertsona.adina = 21;       // gehitu\npertsona[\"email\"] = \"a@b.eus\";\ndelete pertsona.adina;     // ezabatu\n\n\"izena\" in pertsona;       // true","note":"delete propietatea ezabatzen du, baina ez du arrayen elementurik ondo ezabatzen."},{"id":"c43","title":"Object.keys / values / entries","cat":"Objektuak","keywords":["object.keys","values","entries","objeto","iterar"],"code":"const pertsona = { izena: \"Ane\", adina: 21 };\n\nObject.keys(pertsona);    // [\"izena\", \"adina\"]\nObject.values(pertsona);  // [\"Ane\", 21]\nObject.entries(pertsona); // [[\"izena\",\"Ane\"], [\"adina\",21]]","note":"Objektuak iteratzeko ohiko modua: Object.entries() + for...of."},{"id":"c44","title":"Objektuen arraya","cat":"Objektuak","keywords":["objeto","array","sort","filter","map","ikasle"],"code":"const ikasleak = [\n  { izena: \"Ane\", nota: 8 },\n  { izena: \"Iker\", nota: 6 },\n];\n\nconst gaindituak = ikasleak.filter((i) => i.nota >= 5);\nconst notak = ikasleak.map((i) => i.nota);\nikasleak.sort((a, b) => b.nota - a.nota);","note":"Objektuen arrayak oso ohikoak dira: filter, map eta sort konbinatu."},{"id":"c45","title":"this metodoan","cat":"Objektuak","keywords":["this","metodo","contexto","deitzaile","arrow"],"code":"const pertsona = {\n  izena: \"Ane\",\n  agurtu() {\n    return this.izena;\n  },\n};\n\npertsona.agurtu();  // \"Ane\"\n\nconst f = pertsona.agurtu;\nf();                // ⚠️ this galdu da","note":"this metodoaren deitzailearen araberakoa da; arrow funtzioek ez dute this propiorik."},{"id":"c46","title":"Erreferentzia eta kopia","cat":"Objektuak","keywords":["referencia","objeto","copia","spread","mutable"],"code":"const a = { izena: \"Ane\" };\nconst b = a;\n\nb.izena = \"Iker\";\nconsole.log(a.izena); // \"Iker\" ⚠️\n\nconst c = { ...a };   // kopia azalekoa\nc.izena = \"Maite\";\nconsole.log(a.izena); // \"Iker\"","note":"Objektuak erreferentziaz pasatzen dira; kopia egiteko { ...obj } edo structuredClone()."},{"id":"c47","title":"Prototipo-konstruktorea","cat":"Prototipoak / Klaseak","keywords":["prototipo","constructor","prototype","new","instanceof","herencia"],"code":"function Pertsona(izena, adina) {\n  this.izena = izena;\n  this.adina = adina;\n}\n\nPertsona.prototype.agurtu = function () {\n  return `Kaixo, ${this.izena}`;\n};\n\nconst ane = new Pertsona(\"Ane\", 21);\nane.agurtu();\nane instanceof Pertsona; // true","note":"new gabe deituta, this ez da objektu berria. Metodoak prototipoan jartzea eraginkorra da."},{"id":"c48","title":"Klasea","cat":"Prototipoak / Klaseak","keywords":["class","clase","constructor","new","metodo"],"code":"class Pertsona {\n  constructor(izena, adina) {\n    this.izena = izena;\n    this.adina = adina;\n  }\n\n  agurtu() {\n    return `Kaixo, ${this.izena}`;\n  }\n}\n\nconst ane = new Pertsona(\"Ane\", 21);","note":"class prototipoen gaineko sintaxi modernoa da; new behar da."},{"id":"c49","title":"get / set","cat":"Prototipoak / Klaseak","keywords":["get","set","getter","setter","encapsulacion","validacion"],"code":"class Erabiltzailea {\n  constructor(nick) {\n    this._nick = nick;\n  }\n\n  get nick() {\n    return this._nick;\n  }\n\n  set nick(balioa) {\n    if (!balioa) throw new Error(\"Hutsik ez\");\n    this._nick = balioa;\n  }\n}\n\nconst e = new Erabiltzailea(\"ane\");\ne.nick = \"iker\";","note":"get/set propietate gisa erabiltzen dira (e.nick, ez e.nick())."},{"id":"c50","title":"static","cat":"Prototipoak / Klaseak","keywords":["static","clase","metodo","instancia"],"code":"class Pertsona {\n  static espeziea() {\n    return \"Gizakia\";\n  }\n}\n\nPertsona.espeziea();         // ✅\n// new Pertsona().espeziea(); // ❌","note":"static metodoak klaseari dagozkio, ez instantziei."},{"id":"c51","title":"Herentzia: extends / super","cat":"Prototipoak / Klaseak","keywords":["extends","super","herencia","clase","hijo"],"code":"class Ikaslea extends Pertsona {\n  constructor(izena, adina, ikastetxea) {\n    super(izena, adina);   // derrigorrezkoa\n    this.ikastetxea = ikastetxea;\n  }\n\n  agurtu() {\n    return `${super.agurtu()} (${this.ikastetxea})`;\n  }\n}","note":"super() deitu aurretik ezin da this erabili. super.metodoa() gurasoaren bertsioa deitzen du."},{"id":"c52","title":"Prototipoak vs. klaseak","cat":"Prototipoak / Klaseak","keywords":["prototipo","clase","comparacion","herencia"],"code":"// Prototipoak\nfunction A() {}\nA.prototype.f = function () {};\n\n// Klaseak\nclass B {\n  f() {}\n}\n\nnew A().f();\nnew B().f();","note":"Klaseak prototipo-katearen gainean eraikitako sintaxia dira: funtzionamendua antzekoa da."},{"id":"c53","title":"export","cat":"Moduluak","keywords":["export","named","default","modulo","mates"],"code":"// mates.js\nexport const PI = 3.1416;\n\nexport function batu(a, b) {\n  return a + b;\n}\n\nexport default class Kalkulagailua {\n  biderkatu(a, b) {\n    return a * b;\n  }\n}","note":"Named export: bat baino gehiago. Default export: modulu bakoitzeko bakarra."},{"id":"c54","title":"import","cat":"Moduluak","keywords":["import","modulo","type module","script","ruta"],"code":"\u003cscript type=\"module\">\n  import Kalkulagailua, { PI, batu } from \"./mates.js\";\n\n  console.log(PI, batu(2, 3));\n  console.log(new Kalkulagailua().biderkatu(2, 3));\n\u003c/script>","note":"type=\"module\" behar da; bideak ./ edo ../ eta luzapenarekin. file:// ez da fidagarria."},{"id":"c55","title":"import * as","cat":"Moduluak","keywords":["import","namespace","modulo","default"],"code":"import * as mates from \"./mates.js\";\n\nmates.PI;\nmates.batu(2, 3);\nmates.default;   // default export","note":"Modulu osoa objektu gisa inportatzeko. Default export-a default propietatean dago."},{"id":"c56","title":"DOM zuhaitza","cat":"DOM","keywords":["dom","arbol","nodo","document","html"],"code":"document\n└── html\n    ├── head\n    │   └── title\n    └── body\n        ├── h1\n        └── p","note":"DOM = HTML dokumentuaren zuhaitza. Nodo motak: elementua, atributua eta testua."},{"id":"c57","title":"getElementById","cat":"DOM","keywords":["getelementbyid","seleccionar","id","dom"],"code":"const mezua = document.getElementById(\"mezua\");\n\nmezua.textContent = \"Kaixo\";","note":"ID bidez elementu bakarra. IDa bakarra izan behar da dokumentuan."},{"id":"c58","title":"querySelector / querySelectorAll","cat":"DOM","keywords":["queryselector","queryselectorall","css","selector","nodelist"],"code":"const karta = document.querySelector(\".karta\");\nconst parrafoak = document.querySelectorAll(\"p\");\n\nparrafoak.length;\nparrafoak[0];","note":"querySelector → lehen elementua (edo null). querySelectorAll → NodeList (guztiak)."},{"id":"c59","title":"Beste hautatzaileak","cat":"DOM","keywords":["getelementsbyclassname","getelementsbytagname","getelementsbyname","htmlcollection","nodelist"],"code":"document.getElementsByClassName(\"nabarmendu\");\ndocument.getElementsByTagName(\"a\");\ndocument.getElementsByName(\"izena\");","note":"HTMLCollection bizia edo NodeList itzultzen dute. querySelector/querySelectorAll erabili lehenetsi."},{"id":"c60","title":"textContent vs. innerHTML","cat":"DOM","keywords":["textcontent","innerhtml","xss","seguridad","dom"],"code":"elementua.textContent = \"Testu hutsa\";         // segurua\nelementua.innerHTML = \"\u003cstrong>HTML\u003c/strong>\"; // HTMLa interpretatzen du","note":"Erabiltzailearen datuak innerHTML-n sartzeak XSS arriskua du; testurako textContent."},{"id":"c61","title":"classList / style","cat":"DOM","keywords":["classlist","style","css","clase","dom"],"code":"elementua.classList.add(\"aktiboa\");\nelementua.classList.remove(\"ezkutua\");\nelementua.classList.toggle(\"nabarmendua\");\nelementua.classList.contains(\"aktiboa\"); // true\n\nelementua.style.color = \"red\";\nelementua.style.display = \"none\";","note":"classList erabili className baino lehen; estiloak style bidez."},{"id":"c62","title":"Atributuak / dataset","cat":"DOM","keywords":["atributo","setattribute","getattribute","dataset","data"],"code":"elementua.setAttribute(\"data-egoera\", \"ok\");\nelementua.getAttribute(\"data-egoera\");    // \"ok\"\nelementua.removeAttribute(\"data-egoera\");\n\nelementua.dataset.egoera;                 // \"ok\"\nelementua.dataset.egoera = \"errorea\";","note":"data-* atributuak dataset bidez atzitzen dira (kamelCase bihurtuta)."},{"id":"c63","title":"createElement / appendChild","cat":"DOM","keywords":["createelement","appendchild","crear","dom","li"],"code":"const lista = document.getElementById(\"lista\");\n\nconst li = document.createElement(\"li\");\nli.textContent = \"Elementu berria\";\nlista.appendChild(li);","note":"Elementua sortu → edukia ezarri → gurasoari gehitu."},{"id":"c64","title":"insertBefore / before / after","cat":"DOM","keywords":["insertbefore","before","after","dom","posizio"],"code":"lista.insertBefore(berria, lista.firstElementChild);\nelementua.before(berria);\nelementua.after(berria);","note":"Posizio zehatzean sartzeko. before/after elementuaren senide gisa gehitzen dute."},{"id":"c65","title":"remove / replaceChild","cat":"DOM","keywords":["remove","removechild","replacechild","ezabatu","dom"],"code":"elementua.remove();\nlista.removeChild(lista.lastElementChild);\n\nlista.replaceChild(berria, lista.children[1]);","note":"Elementuak ezabatzeko edo ordezkatzeko."},{"id":"c66","title":"Nabigazioa","cat":"DOM","keywords":["parentelement","children","childnodes","sibling","navegacion","dom"],"code":"elementua.parentElement;\nelementua.children;              // elementuak\nelementua.childNodes;            // nodo guztiak\nelementua.firstElementChild;\nelementua.nextElementSibling;\nelementua.previousElementSibling;\nelementua.contains(bestela);","note":"children vs. childNodes: bigarrenak testu-nodoak eta iruzkinak sartzen ditu."},{"id":"c67","title":"cloneNode","cat":"DOM","keywords":["clonenode","clonar","copia","dom"],"code":"const kopia = li.cloneNode(true); // true = ondorengoekin\nlista.appendChild(kopia);","note":"false (edo ezer ez) bada, elementua hutsik klonatzen da."},{"id":"c68","title":"addEventListener","cat":"Gertaerak","keywords":["addeventlistener","evento","click","event","target"],"code":"const botoia = document.getElementById(\"botoia\");\n\nbotoia.addEventListener(\"click\", (event) => {\n  console.log(\"Klik!\", event.target);\n});","note":"Gertaerak addEventListener bidez lotzen dira; onclick baino malguagoa."},{"id":"c69","title":"Formularioa: submit","cat":"Gertaerak","keywords":["submit","preventdefault","formulario","form","value"],"code":"const forma = document.querySelector(\"form\");\n\nforma.addEventListener(\"submit\", (e) => {\n  e.preventDefault();\n  const izena = document.querySelector(\"#izena\").value.trim();\n  if (!izena) return;\n  console.log(izena);\n});","note":"preventDefault() gabe orria berriz kargatzen da. value beti string da."},{"id":"c70","title":"DOMContentLoaded / load","cat":"Gertaerak","keywords":["domcontentloaded","load","evento","karga"],"code":"document.addEventListener(\"DOMContentLoaded\", () => {\n  console.log(\"DOM prest\");\n});\n\nwindow.addEventListener(\"load\", () => {\n  console.log(\"Dena kargatuta\");\n});","note":"DOMContentLoaded: HTMLa parseatuta. load: irudiak eta baliabideak ere bai."},{"id":"c71","title":"Teklatua","cat":"Gertaerak","keywords":["keydown","teclado","enter","event","key"],"code":"document.addEventListener(\"keydown\", (e) => {\n  if (e.key === \"Enter\") {\n    console.log(\"Enter\");\n  }\n});","note":"e.key teklaren izena ematen du; e.preventDefault() portaera lehenetsia ekiditeko."},{"id":"c72","title":"Event delegation","cat":"Gertaerak","keywords":["delegacion","event delegation","matches","target","lista"],"code":"lista.addEventListener(\"click\", (e) => {\n  if (e.target.matches(\"li\")) {\n    console.log(\"Klik:\", e.target.textContent);\n  }\n});","note":"Guraso bakarrean entzunda, seme dinamiko guztiak kudea daitezke (delegazioa). Gertaerak burbuileatzen dira; stopPropagation() erabili behar denean."},{"id":"c73","title":"setTimeout / setInterval","cat":"Web APIak","keywords":["settimeout","setinterval","cleartimeout","clearinterval","timer"],"code":"const id = setTimeout(() => {\n  console.log(\"Behin\");\n}, 1000);\n\nconst intervaloa = setInterval(() => {\n  console.log(\"Aldiro\");\n}, 1000);\n\nclearTimeout(id);\nclearInterval(intervaloa);","note":"setTimeout behin; setInterval aldiro. Garbitzea ahaztu gero memoria/isuria."},{"id":"c74","title":"localStorage","cat":"Web APIak","keywords":["localstorage","storage","setitem","getitem","removeitem","clear"],"code":"localStorage.setItem(\"izena\", \"Ane\");\nlocalStorage.getItem(\"izena\");     // \"Ane\"\nlocalStorage.removeItem(\"izena\");\nlocalStorage.clear();","note":"Balioak string gisa gordetzen dira. localStorage iraunkorra da; sessionStorage fitxakoa."},{"id":"c75","title":"Objektua storagean","cat":"Web APIak","keywords":["localstorage","json","stringify","parse","objeto"],"code":"const datua = { izena: \"Ane\", adina: 21 };\n\nlocalStorage.setItem(\"erabiltzailea\", JSON.stringify(datua));\n\nconst gordea = localStorage.getItem(\"erabiltzailea\");\nconst objektua = gordea ? JSON.parse(gordea) : null;","note":"Objektuak gordetzeko JSON.stringify; irakurtzeko JSON.parse."},{"id":"c76","title":"Geolocation","cat":"Web APIak","keywords":["geolocation","posicion","latitude","longitude","permisos"],"code":"navigator.geolocation.getCurrentPosition(\n  (posizioa) => {\n    const { latitude, longitude, accuracy } = posizioa.coords;\n    console.log(latitude, longitude, accuracy);\n  },\n  (errorea) => {\n    console.error(errorea.message);\n  }\n);","note":"HTTPS edo localhost behar da; erabiltzailearen baimena eta erantzun asinkronoa."},{"id":"c77","title":"fetch","cat":"Web APIak","keywords":["fetch","async","await","json","response.ok","http"],"code":"async function datuakKargatu() {\n  try {\n    const erantzuna = await fetch(\"datuak.json\");\n    if (!erantzuna.ok) throw new Error(`HTTP ${erantzuna.status}`);\n    const datuak = await erantzuna.json();\n    console.log(datuak);\n  } catch (errorea) {\n    console.error(errorea.message);\n  }\n}","note":"fetch ez da errorea botatzen 4xx/5xx bada; response.ok egiaztatu."},{"id":"c78","title":"async / await","cat":"Web APIak","keywords":["async","await","promise","fetch","asincrono"],"code":"async function kargatu() {\n  const r = await fetch(\"/api/items\");\n  const datuak = await r.json();\n  return datuak;\n}\n\nkargatu().then((datuak) => console.log(datuak));","note":"async funtzioak beti Promise bat itzultzen du; await promesa baten emaitzaren zain geratzen da."},{"id":"c79","title":"Beste Web APIak","cat":"Web APIak","keywords":["clipboard","notification","canvas","web api","permisos"],"code":"navigator.clipboard.writeText(\"Kaixo\");\n\nnew Notification(\"Kaixo!\");\n\nconst ctx = canvas.getContext(\"2d\");","note":"Clipboard, Notification eta Canvas APIak; batzuek baimena edo HTTPS behar dute."}];const categories=["Guztiak",...new Set(CARDS.map(c=>c.cat))];const state={q:"",cat:"Guztiak"};const $=s=>document.querySelector(s);const grid=$("#grid"),search=$("#search"),empty=$("#empty"),count=$("#count"),filters=$("#filters");function norm(s){return(s||"").toLocaleLowerCase("eu").normalize("NFD").replace(/[\u0300-\u036f]/g,"")}function esc(s){return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"})[m])}function renderFilters(){filters.innerHTML=categories.map(cat=>`<button class="filter ${state.cat===cat?'active':''}" data-cat="${esc(cat)}">${esc(cat)}</button>`).join("");filters.querySelectorAll("button").forEach(b=>b.onclick=()=>{state.cat=b.dataset.cat;renderFilters();render()})}function matches(c){if(state.cat!=="Guztiak"&&c.cat!==state.cat)return false;const terms=norm(state.q).trim().split(/\s+/).filter(Boolean);if(!terms.length)return true;const hay=norm([c.title,c.cat,c.note,c.code,...c.keywords].join(" "));return terms.every(t=>hay.includes(t))}function card(c){return `<article class="card"><div class="cardhead"><div class="badge">${esc(c.cat)}</div><h2>${esc(c.title)}</h2></div><pre><code>${esc(c.code)}</code></pre><p class="note">${esc(c.note)}</p><div class="cardfoot"><span class="tags">${esc(c.keywords.slice(0,5).join(" · "))}</span><button class="copy" data-copy="${c.id}">Kopiatu</button></div></article>`}function render(){const items=CARDS.filter(matches);grid.innerHTML=items.map(card).join("");count.textContent=`${items.length} / ${CARDS.length} fitxa`;empty.style.display=items.length?"none":"block";grid.querySelectorAll(".copy").forEach(b=>b.onclick=async()=>{const c=CARDS.find(x=>x.id===b.dataset.copy);try{await navigator.clipboard.writeText(c.code);const old=b.textContent;b.textContent="Kopiatuta";setTimeout(()=>b.textContent=old,900)}catch{b.textContent="Hautatu kodea"}})}search.addEventListener("input",e=>{state.q=e.target.value;render()});document.addEventListener("keydown",e=>{if(e.key==="/"&&document.activeElement!==search){e.preventDefault();search.focus()}if(e.key==="Escape"){search.value="";state.q="";render();search.focus()}});renderFilters();render();
+</script></body></html>
